@@ -56,7 +56,7 @@ function register_teams_cpt() {
 add_action( 'init', 'register_teams_cpt', 0 );
 
 
-// Register Custom Taxonomy - Season
+// Register Custom Taxonomy - Season - for teams and schedule
 function register_season_taxonomy() {
     $labels = array(
         'name'                       => _x( 'Seasons', 'Taxonomy General Name', 'textdomain' ),
@@ -91,7 +91,7 @@ function register_season_taxonomy() {
         'rewrite'                    => array( 'slug' => 'season' ),
     );
     
-    register_taxonomy( 'season', array( 'teams' ), $args );
+    register_taxonomy( 'season', array( 'teams', 'schedule' ), $args );
 }
 
 add_action( 'init', 'register_season_taxonomy', 0 );
@@ -151,3 +151,112 @@ function register_players_cpt() {
 }
 
 add_action( 'init', 'register_players_cpt', 0 );
+
+
+function register_games_schedule_cpt() {
+    $labels = array(
+        'name'                  => 'Schedule',
+        'singular_name'         => 'Schedule',
+        'menu_name'             => 'Schedule',
+        'name_admin_bar'        => 'Draw',
+        'add_new'               => 'Add New',
+        'add_new_item'          => 'Add New Draw',
+        'new_item'              => 'New Draw',
+        'edit_item'             => 'Edit Draw',
+        'view_item'             => 'View Draw',
+        'all_items'             => 'All Draws',
+        'search_items'          => 'Search Draws',
+        'not_found'             => 'No draws found.',
+        'not_found_in_trash'    => 'No draws found in Trash.',
+        'parent_item_colon'     => '',
+        'menu_name'             => 'Schedule',
+    );
+    
+    $args = array(
+        'labels'                => $labels,
+        'public'                => true,
+        'publicly_queryable'    => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'show_in_admin_bar'     => true,
+        'show_in_rest'          => true,  // Enable for the block editor
+        'rest_base'             => 'schedule',  // Optional, to modify the endpoint URL
+        'supports'              => array('title', 'custom-fields'),
+        'has_archive'           => false,  // No archive page for games
+        // 'rewrite'               => array('slug' => 'games'),  // Set custom slug
+        'menu_position'         => 5,
+        'menu_icon'             => 'dashicons-calendar',  // You can use any WordPress Dashicon here
+    );
+    
+    register_post_type('schedule', $args);
+}
+add_action('init', 'register_games_schedule_cpt');
+
+
+// function to allow the team names to be dynamically populated in the game outcome field.
+add_filter('acf/load_field/name=game_outcome_sheet_1', 'populate_game_outcome_field');
+add_filter('acf/load_field/name=game_outcome_sheet_2', 'populate_game_outcome_field');
+add_filter('acf/load_field/name=game_outcome_sheet_3', 'populate_game_outcome_field');
+add_filter('acf/load_field/name=game_outcome_sheet_4', 'populate_game_outcome_field');
+add_filter('acf/load_field/name=game_outcome_sheet_5', 'populate_game_outcome_field');
+add_filter('acf/load_field/name=game_outcome_sheet_6', 'populate_game_outcome_field');
+
+add_filter('acf/load_value/name=game_outcome_sheet_1', 'set_default_game_outcome');
+add_filter('acf/load_value/name=game_outcome_sheet_2', 'set_default_game_outcome');
+add_filter('acf/load_value/name=game_outcome_sheet_3', 'set_default_game_outcome');
+add_filter('acf/load_value/name=game_outcome_sheet_4', 'set_default_game_outcome');
+add_filter('acf/load_value/name=game_outcome_sheet_5', 'set_default_game_outcome');
+add_filter('acf/load_value/name=game_outcome_sheet_6', 'set_default_game_outcome');
+
+function populate_game_outcome_field($field) {
+    // Ensure we're in the context of a post
+    if (isset($_GET['post'])) {
+        $post_id = $_GET['post']; // Get the current post ID
+
+        // Initialize an empty array for options
+        $options = [];
+
+        // Get the sheet number from the filter name
+        // The sheet number is part of the field name (game_outcome_sheet_X)
+        preg_match('/game_outcome_sheet_(\d)/', $field['name'], $matches);
+        $sheet_number = isset($matches[1]) ? $matches[1] : 1; // Default to sheet 1 if not found
+
+        // Get the post object fields for team 1 and team 2 on the current sheet
+        $team_1_field = 'team_1_sheet_' . $sheet_number;
+        $team_2_field = 'team_2_sheet_' . $sheet_number;
+
+        // Get the post objects for team 1 and team 2
+        $team_1_post = get_field($team_1_field, $post_id);
+        $team_2_post = get_field($team_2_field, $post_id);
+
+        // Check if the team post objects are available and get the titles
+        if ($team_1_post) {
+            $options['team_1_sheet_' . $sheet_number] = get_the_title($team_1_post->ID); // Use the title as the label
+        }
+        if ($team_2_post) {
+            $options['team_2_sheet_' . $sheet_number] = get_the_title($team_2_post->ID); // Use the title as the label
+        }
+
+        // Add "Tie" and "No Result" options
+        $options['tie'] = 'Tie';
+        $options['no_result'] = 'No Result';
+
+        // Set the options for the game_outcome radio field
+        $field['choices'] = $options;
+    } else {
+        $field['choices'] = [];
+    }
+
+    return $field;
+}
+
+// Set "No result" as the default selection for new posts
+function set_default_game_outcome($value) {
+    // Check if the value is empty (this means it's a new post)
+    if (empty($value)) {
+        return 'no_result'; // Set "No result" as the default
+    }
+
+    return $value;
+}
+
