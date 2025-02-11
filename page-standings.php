@@ -72,6 +72,7 @@ while (have_posts()) :
             // Store data for sorting
             $teams[] = array(
                 'name'   => get_the_title(),
+				'ID'     => get_the_ID(),
                 'wins'   => $wins,
                 'losses' => $losses,
                 'ties'   => $ties,
@@ -124,7 +125,11 @@ while (have_posts()) :
         <tbody>
             <?php foreach ($teams as $team) : ?>
                 <tr>
-                    <td><?php echo esc_html($team['name']); ?></td>
+                    <td>
+						<a href="<?php echo esc_url(get_permalink($team['ID']));?>">
+						<?php echo esc_html($team['name']); ?>
+						</a>
+					</td>
                     <td><?php echo esc_html($team['wins']); ?></td>
                     <td><?php echo esc_html($team['losses']); ?></td>
                     <td><?php echo esc_html($team['ties']); ?></td>
