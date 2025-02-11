@@ -335,10 +335,10 @@ function update_team_records_on_schedule_save($post_id, $post, $update) {
         error_log('current_result: ' . $current_result); // Log the result to ensure correctness
 
         // Check if a result already exists (i.e., not "no_result")
-        if ($current_result !== 'no_result') {
-            error_log('Skipping result update because a result has already been recorded: ' . $current_result);
-            continue; // If a result already exists, skip this sheet
-        }
+        // if ($current_result !== 'no_result') {
+        //     error_log('Skipping result update because a result has already been recorded: ' . $current_result);
+        //     continue; // If a result already exists, skip this sheet
+        // }
 
         // Get the teams for the current sheet
         $team_1_post = get_field($team_1_field, $post_id);
@@ -403,4 +403,43 @@ function update_team_records_on_schedule_save($post_id, $post, $update) {
             error_log("Updated Team 2 post: " . wp_update_post(array('ID' => $team_2_id)));
         }
     }
+}
+
+
+
+//custom filtering of team list when adding new game - filters out teams that aren't in the specified season---must choose season on draw page.
+function filter_teams_by_season($args, $field, $post_id) {
+    // Get the selected Season taxonomy term for the Schedule post
+    $selected_seasons = wp_get_post_terms($post_id, 'season', array('fields' => 'slugs'));
+
+    // If no season is selected, return an empty query (No teams available)
+    if (empty($selected_seasons)) {
+        $args['post__in'] = array(0); // No results
+        return $args;
+    }
+
+    // Modify the query to filter by the selected Season taxonomy
+    $args['tax_query'] = array(
+        array(
+            'taxonomy' => 'season',
+            'field'    => 'slug',
+            'terms'    => $selected_seasons, // Filter teams by selected season
+        ),
+    );
+
+    return $args;
+}
+
+// Apply the filter to all Post Object fields for teams
+$team_fields = [
+    'team_1_sheet_1', 'team_2_sheet_1',
+    'team_1_sheet_2', 'team_2_sheet_2',
+    'team_1_sheet_3', 'team_2_sheet_3',
+    'team_1_sheet_4', 'team_2_sheet_4',
+    'team_1_sheet_5', 'team_2_sheet_5',
+    'team_1_sheet_6', 'team_2_sheet_6'
+];
+
+foreach ($team_fields as $field_name) {
+    add_filter("acf/fields/post_object/query/name={$field_name}", 'filter_teams_by_season', 10, 3);
 }
