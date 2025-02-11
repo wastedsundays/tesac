@@ -230,21 +230,21 @@ add_action('pre_get_posts', 'my_sort_by_wins');
 
 
 // function to allow the team names to be dynamically populated in the game outcome field.
-add_filter('acf/load_field/name=game_outcome_sheet_1', 'populate_game_outcome_field');
-add_filter('acf/load_field/name=game_outcome_sheet_2', 'populate_game_outcome_field');
-add_filter('acf/load_field/name=game_outcome_sheet_3', 'populate_game_outcome_field');
-add_filter('acf/load_field/name=game_outcome_sheet_4', 'populate_game_outcome_field');
-add_filter('acf/load_field/name=game_outcome_sheet_5', 'populate_game_outcome_field');
-add_filter('acf/load_field/name=game_outcome_sheet_6', 'populate_game_outcome_field');
+add_filter('acf/load_field/name=game_result_sheet_1', 'populate_game_result_field');
+add_filter('acf/load_field/name=game_result_sheet_2', 'populate_game_result_field');
+add_filter('acf/load_field/name=game_result_sheet_3', 'populate_game_result_field');
+add_filter('acf/load_field/name=game_result_sheet_4', 'populate_game_result_field');
+add_filter('acf/load_field/name=game_result_sheet_5', 'populate_game_result_field');
+add_filter('acf/load_field/name=game_result_sheet_6', 'populate_game_result_field');
 
-add_filter('acf/load_value/name=game_outcome_sheet_1', 'set_default_game_outcome');
-add_filter('acf/load_value/name=game_outcome_sheet_2', 'set_default_game_outcome');
-add_filter('acf/load_value/name=game_outcome_sheet_3', 'set_default_game_outcome');
-add_filter('acf/load_value/name=game_outcome_sheet_4', 'set_default_game_outcome');
-add_filter('acf/load_value/name=game_outcome_sheet_5', 'set_default_game_outcome');
-add_filter('acf/load_value/name=game_outcome_sheet_6', 'set_default_game_outcome');
+add_filter('acf/load_value/name=game_result_sheet_1', 'set_default_game_result');
+add_filter('acf/load_value/name=game_result_sheet_2', 'set_default_game_result');
+add_filter('acf/load_value/name=game_result_sheet_3', 'set_default_game_result');
+add_filter('acf/load_value/name=game_result_sheet_4', 'set_default_game_result');
+add_filter('acf/load_value/name=game_result_sheet_5', 'set_default_game_result');
+add_filter('acf/load_value/name=game_result_sheet_6', 'set_default_game_result');
 
-function populate_game_outcome_field($field) {
+function populate_game_result_field($field) {
     // Ensure we're in the context of a post
     if (isset($_GET['post'])) {
         $post_id = $_GET['post']; // Get the current post ID
@@ -254,7 +254,7 @@ function populate_game_outcome_field($field) {
 
         // Get the sheet number from the filter name
         // The sheet number is part of the field name (game_outcome_sheet_X)
-        preg_match('/game_outcome_sheet_(\d)/', $field['name'], $matches);
+        preg_match('/game_result_sheet_(\d)/', $field['name'], $matches);
         $sheet_number = isset($matches[1]) ? $matches[1] : 1; // Default to sheet 1 if not found
 
         // Get the post object fields for team 1 and team 2 on the current sheet
@@ -287,7 +287,7 @@ function populate_game_outcome_field($field) {
 }
 
 // Set "No result" as the default selection for new posts
-function set_default_game_outcome($value) {
+function set_default_game_result($value) {
     // Check if the value is empty (this means it's a new post)
     if (empty($value)) {
         return 'no_result'; // Set "No result" as the default
