@@ -55,6 +55,8 @@ get_header();
 			<?php	
 
 
+$team_id = get_the_ID();  // Get the current team ID
+display_team_results($team_id);
 			
 
 			the_post_navigation(
