@@ -193,6 +193,42 @@ function register_games_schedule_cpt() {
 add_action('init', 'register_games_schedule_cpt');
 
 
+function team_record_columns($columns) {
+    $columns['record'] = 'Record';  // Add a custom column called 'Record'
+    return $columns;
+}
+add_filter('manage_teams_posts_columns', 'team_record_columns');
+
+function record_columns_content($column, $post_id) {
+    if ($column == 'record') {
+        // Get the ACF field values for 'wins', 'losses', and 'ties'
+        $wins = get_field('wins', $post_id);
+        $losses = get_field('losses', $post_id);
+        $ties = get_field('ties', $post_id);
+
+        // Display the combined record as 'Wins - Losses - Ties'
+        echo $wins . ' - ' . $losses . ' - ' . $ties;
+    }
+}
+add_action('manage_teams_posts_custom_column', 'record_columns_content', 10, 2);
+
+function sortable_record_columns($columns) {
+    $columns['record'] = 'wins';  // Make the 'Record' column sortable based on 'wins'
+    return $columns;
+}
+add_filter('manage_edit-teams_sortable_columns', 'sortable_record_columns');
+
+function my_sort_by_wins($query) {
+    // Check if we're on the admin page for the 'teams' post type and sorting by 'wins'
+    if (is_admin() && $query->is_main_query() && isset($_GET['orderby']) && $_GET['orderby'] === 'wins') {
+        // Modify the query to sort by the 'wins' field (this assumes you're using ACF)
+        $query->set('meta_key', 'wins');  // Set the meta key to the 'wins' ACF field
+        $query->set('orderby', 'meta_value_num');  // Sort as a numeric value
+    }
+}
+add_action('pre_get_posts', 'my_sort_by_wins');
+
+
 // function to allow the team names to be dynamically populated in the game outcome field.
 add_filter('acf/load_field/name=game_outcome_sheet_1', 'populate_game_outcome_field');
 add_filter('acf/load_field/name=game_outcome_sheet_2', 'populate_game_outcome_field');
