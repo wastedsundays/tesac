@@ -296,3 +296,111 @@ function set_default_game_result($value) {
     return $value;
 }
 
+
+// TRYING SOMETHING NEW HERE
+
+// This hooks into the save_post action (fires on all post types)
+add_action('save_post', 'custom_save_schedule_post', 10, 3);
+
+function custom_save_schedule_post($post_id, $post, $update) {
+    // Skip revisions and auto-saves
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+    // Only proceed if it's a 'Schedule' post type
+    if ($post->post_type !== 'schedule') {
+        return;
+    }
+
+    // Trigger custom action to update team records after schedule is saved
+    do_action('save_post_schedule', $post_id, $post, $update);
+}
+
+add_action('save_post_schedule', 'update_team_records_on_schedule_save', 10, 3);
+
+function update_team_records_on_schedule_save($post_id, $post, $update) {
+    // Only proceed if it's a 'Schedule' post type
+    if ($post->post_type !== 'schedule') {
+        return;
+    }
+
+    // Loop through all the sheets (1-6)
+    for ($i = 1; $i <= 6; $i++) {
+        // Get the field names dynamically based on the sheet number
+        $team_1_field = 'team_1_sheet_' . $i;
+        $team_2_field = 'team_2_sheet_' . $i;
+        $game_result_field = 'game_result_sheet_' . $i;
+
+        // Get the current game result (win/loss/tie/no_result)
+        $current_result = get_field($game_result_field, $post_id);
+        error_log('current_result: ' . $current_result); // Log the result to ensure correctness
+
+        // Check if a result already exists (i.e., not "no_result")
+        if ($current_result !== 'no_result') {
+            error_log('Skipping result update because a result has already been recorded: ' . $current_result);
+            continue; // If a result already exists, skip this sheet
+        }
+
+        // Get the teams for the current sheet
+        $team_1_post = get_field($team_1_field, $post_id);
+        $team_2_post = get_field($team_2_field, $post_id); // Set to false to avoid getting an array
+
+        // Ensure both teams are selected
+        if ($team_1_post && $team_2_post) {
+            $team_1_id = $team_1_post->ID;
+            $team_2_id = $team_2_post->ID;
+
+            // Log the team IDs to ensure we have the correct team posts
+            error_log("Team 1 ID: " . $team_1_id);
+            error_log("Team 2 ID: " . $team_2_id);
+
+            // Get the current win/loss/tie counts for each team
+            $team_1_wins = get_field('wins', $team_1_id) ?: 0;
+            $team_1_losses = get_field('losses', $team_1_id) ?: 0;
+            $team_1_ties = get_field('ties', $team_1_id) ?: 0;
+
+            $team_2_wins = get_field('wins', $team_2_id) ?: 0;
+            $team_2_losses = get_field('losses', $team_2_id) ?: 0;
+            $team_2_ties = get_field('ties', $team_2_id) ?: 0;
+
+            // Now apply the new result directly
+            if ($current_result === 'team_1_sheet_' . $i) {
+                // Team 1 wins, Team 2 loses
+                $team_1_wins += 1;
+                $team_2_losses += 1;
+                error_log("Updating result: Team 1 wins, Team 2 loses");
+            } elseif ($current_result === 'team_2_sheet_' . $i) {
+                // Team 2 wins, Team 1 loses
+                $team_1_losses += 1;
+                $team_2_wins += 1;
+                error_log("Updating result: Team 2 wins, Team 1 loses");
+            } elseif ($current_result === 'tie') {
+                // Tie
+                $team_1_ties += 1;
+                $team_2_ties += 1;
+                error_log("Updating result: Tie");
+            }
+
+            // Log the updated values for debugging
+            error_log("Updated Team 1 Wins: " . $team_1_wins);
+            error_log("Updated Team 1 Losses: " . $team_1_losses);
+            error_log("Updated Team 1 Ties: " . $team_1_ties);
+
+            error_log("Updated Team 2 Wins: " . $team_2_wins);
+            error_log("Updated Team 2 Losses: " . $team_2_losses);
+            error_log("Updated Team 2 Ties: " . $team_2_ties);
+
+            // Directly update the team records using update_post_meta
+            update_post_meta($team_1_id, 'wins', $team_1_wins);
+            update_post_meta($team_1_id, 'losses', $team_1_losses);
+            update_post_meta($team_1_id, 'ties', $team_1_ties);
+
+            update_post_meta($team_2_id, 'wins', $team_2_wins);
+            update_post_meta($team_2_id, 'losses', $team_2_losses);
+            update_post_meta($team_2_id, 'ties', $team_2_ties);
+
+            // Log update success
+            error_log("Updated Team 1 post: " . wp_update_post(array('ID' => $team_1_id)));
+            error_log("Updated Team 2 post: " . wp_update_post(array('ID' => $team_2_id)));
+        }
+    }
+}
