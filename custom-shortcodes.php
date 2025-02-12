@@ -124,7 +124,8 @@ function display_team_results($team_id) {
     $query = new WP_Query($args);
     
     if ($query->have_posts()) {
-        echo '<div class="team-results-container">';
+        echo '<div class="team-results-container card-container">';
+        echo '<h2>Team Results</h2>';
         echo '<ul class="team-results">';
         while ($query->have_posts()) {
             $query->the_post();

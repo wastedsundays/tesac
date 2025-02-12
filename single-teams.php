@@ -27,12 +27,12 @@ get_header();
 			$points = ($wins * 2) + $ties;
 
 			?>
-			<div class="team-info-container">
+			<div class="team-info-container card-container">
 				<h1><?php echo get_the_title(); ?></h1>
-
-				<p>Wins: <?php echo $wins; ?> | Losses: <?php echo $losses; ?> | Ties: <?php echo $ties; ?> | Points: <?php echo $points; ?></p>
+				<p><?php echo $wins; ?> - <?php echo $losses; ?> - <?php echo $ties; ?> (<?php echo $points; ?> Pts)</p>
+				
 			</div>
-			<div class="team-roster-container">
+			<div class="team-roster-container card-container">
 				<h2>Team Roster</h2>
 				<table>
 					<thead>

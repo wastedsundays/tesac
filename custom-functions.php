@@ -5,6 +5,16 @@ function enqueue_google_fonts() {
 }
 add_action('wp_enqueue_scripts', 'enqueue_google_fonts');
 
+function custom_enqueue_styles() {
+    // Enqueue main theme stylesheet (optional)
+    // wp_enqueue_style('theme-style', get_stylesheet_uri());
+    
+    // Enqueue additional stylesheet
+    wp_enqueue_style('custom-style', get_template_directory_uri() . '/style-custom.css');
+}
+add_action('wp_enqueue_scripts', 'custom_enqueue_styles');
+
+
 function register_teams_cpt() {
     $labels = array(
         'name'                  => _x( 'Teams', 'Post Type General Name', 'textdomain' ),

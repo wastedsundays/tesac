@@ -1,0 +1,48 @@
+/* general class-based styles */
+.card-container {
+    border: 1px solid #ccc;
+    margin: 2rem;
+    background-color: white;
+    padding: 1rem;
+}
+
+
+/* team page things */
+.team-page {
+    display: grid;
+
+    grid-template-areas: "info"
+                         "roster"
+                         "results"
+                         "nav";
+    width: clamp(300px, 95%, 1600px);
+    margin: 0 auto;
+    background-color: bisque;
+    padding:2rem 1rem;
+}
+
+@media (min-width: 1100px) {
+    .team-page {
+        grid-template-areas: "info results"
+                             "roster results"
+                             "nav nav";
+    }
+}
+
+.team-info-container {
+    grid-area: info;
+    display: flex;
+    justify-content: space-between;
+}
+
+.team-roster-container {
+    grid-area: roster;
+}
+
+.team-results-container {
+    grid-area: results;
+}
+
+.team-page .post-navigation {
+    grid-area: nav;
+}
