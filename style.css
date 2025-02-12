@@ -421,7 +421,7 @@ h6 {
 }
 
 p {
-	
+
 }
 
 dfn,
@@ -551,6 +551,14 @@ table th {
   table th:last-child {
 	border-radius: 0 .75rem 0 0;
   }
+
+table:not(.team-roster-container table) td:not(:first-child) {
+	text-align: center;
+}
+
+table:not(.team-roster-container table) th:not(:first-child) {
+	text-align: center;
+}
   
 
   table td {

@@ -154,5 +154,4 @@ while (have_posts()) :
 	</main><!-- #main -->
 
 <?php
-get_sidebar();
 get_footer();
