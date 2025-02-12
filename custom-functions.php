@@ -1,5 +1,10 @@
 <?php
 
+function enqueue_google_fonts() {
+    wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap', false);
+}
+add_action('wp_enqueue_scripts', 'enqueue_google_fonts');
+
 function register_teams_cpt() {
     $labels = array(
         'name'                  => _x( 'Teams', 'Post Type General Name', 'textdomain' ),
