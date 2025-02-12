@@ -1,10 +1,16 @@
 /* general class-based styles */
 .card-container {
     border-radius: .75rem;
-    margin: 2rem;
+    margin: 2rem .75rem;
     background-color: white;
     padding: 1rem;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-container h2 {
+    /* font-size: 2rem; */
+    font-family: 'Bebas Neue', sans-serif;
+    text-align: center;
 }
 
 
@@ -27,6 +33,7 @@
         grid-template-areas: "info results"
                              "roster results"
                              "nav nav";
+        grid-template-columns: 60% 40%;
     }
 }
 
@@ -41,8 +48,20 @@
 .team-info-container p {
     font-size: 2rem;
     font-family: 'Bebas Neue', sans-serif;
-    font-style: bold;
+    margin: 0 0 1rem;
 }
+
+
+@media (min-width: 720px ) {
+    .team-info-container {
+        flex-direction: row;
+    }
+
+    .team-info-container p {
+        margin: 0;
+    }
+}
+
 
 .team-roster-container {
     grid-area: roster;
@@ -50,6 +69,10 @@
 
 .team-results-container {
     grid-area: results;
+}
+
+.team-results-container td {
+    padding:  .5rem 1rem;
 }
 
 .team-page .post-navigation {

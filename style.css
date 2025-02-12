@@ -417,10 +417,11 @@ h6 {
 	clear: both;
 	font-family: 'Bebas Neue', sans-serif;
 	letter-spacing: 1px;
+	font-weight: 400;
 }
 
 p {
-	margin-bottom: 1.5em;
+	
 }
 
 dfn,
@@ -530,7 +531,34 @@ figure {
 table {
 	margin: 0 0 1.5em;
 	width: 100%;
+	border-collapse: collapse;
 }
+
+table th {
+	font-family: 'Bebas Neue', sans-serif;
+	font-weight: 400;
+	font-size: 1.25rem;
+	background-color: navy;
+	color: gold;
+	padding: 1rem;
+	text-align: left;
+  }
+
+  table th:first-child {
+	border-radius: .75rem 0 0 0;
+  }
+
+  table th:last-child {
+	border-radius: 0 .75rem 0 0;
+  }
+  
+
+  table td {
+	font-family: 'Inter', sans-serif;
+	border-bottom: 2px solid navy;
+	padding: 1rem;
+  }
+
 
 /* Links
 --------------------------------------------- */

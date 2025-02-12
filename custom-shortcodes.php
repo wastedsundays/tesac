@@ -172,7 +172,7 @@ function display_team_results($team_id) {
                                 } elseif ($current_result === 'tie') {
                                     $result = '<span class="tie-result">T</span>';
                                 } else {
-                                    $result = ''; // If there's an unexpected value
+                                    $result = '-'; // If there's an unexpected value
                                 }
                             } else {
                                 $opponent = $team_1_post;
@@ -184,7 +184,7 @@ function display_team_results($team_id) {
                                 } elseif ($current_result === 'tie') {
                                     $result = '<span class="tie-result">T</span>';
                                 } else {
-                                    $result = ''; // If there's an unexpected value
+                                    $result = '-'; // If there's an unexpected value
                                 }
                             }
 
