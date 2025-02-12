@@ -16,7 +16,8 @@ get_header();
 		while ( have_posts() ) :
 			the_post();
 
-			get_template_part( 'template-parts/content', get_post_type() );
+			// get_template_part( 'template-parts/content', get_post_type() );
+			
 
 			$positions = ['skip', 'third', 'second', 'lead', 'alt']; // Positions array
 			$wins = get_field('wins');
@@ -26,30 +27,36 @@ get_header();
 			$points = ($wins * 2) + $ties;
 
 			?>
+			<div class="team-info-container">
+				<h1><?php echo get_the_title(); ?></h1>
 
-			<p>Wins: <?php echo $wins; ?> | Losses: <?php echo $losses; ?> | Ties: <?php echo $ties; ?> | Points: <?php echo $points; ?></p>
-			<table>
-				<thead>
-					<tr>
-						<th>Position</th>
-						<th>Name</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php
-						foreach ($positions as $position) {
-							$player = get_field($position); // Get the player for each position
-							if ($player) {
-								echo '<tr>';
-								echo '<td>' . ucfirst($position) . '</td>';
-								echo '<td>' . get_the_title($player->ID) . '</td>';
-								echo '</tr>';
+				<p>Wins: <?php echo $wins; ?> | Losses: <?php echo $losses; ?> | Ties: <?php echo $ties; ?> | Points: <?php echo $points; ?></p>
+			</div>
+			<div class="team-roster-container">
+				<h2>Team Roster</h2>
+				<table>
+					<thead>
+						<tr>
+							<th>Position</th>
+							<th>Name</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+							foreach ($positions as $position) {
+								$player = get_field($position); // Get the player for each position
+								if ($player) {
+									echo '<tr>';
+									echo '<td>' . ucfirst($position) . '</td>';
+									echo '<td>' . get_the_title($player->ID) . '</td>';
+									echo '</tr>';
+								}
 							}
-						}
 
-					?>
-				</tbody>
-			</table>
+						?>
+					</tbody>
+				</table>	
+			</div>
 
 
 			<?php	
@@ -73,5 +80,5 @@ get_header();
 	</main><!-- #main -->
 
 <?php
-get_sidebar();
+
 get_footer();
