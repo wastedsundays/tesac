@@ -124,6 +124,7 @@ function display_team_results($team_id) {
     $query = new WP_Query($args);
     
     if ($query->have_posts()) {
+        echo '<div class="team-results">';
         echo '<ul class="team-results">';
         while ($query->have_posts()) {
             $query->the_post();
@@ -181,6 +182,7 @@ function display_team_results($team_id) {
             }
         }
         echo '</ul>';
+        echo '</div>';
     } else {
         echo 'No results found for this team.';
     }

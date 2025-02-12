@@ -10,7 +10,7 @@
 get_header();
 ?>
 
-	<main id="primary" class="site-main">
+	<main id="primary" class="team-page">
 
 		<?php
 		while ( have_posts() ) :
@@ -55,8 +55,8 @@ get_header();
 			<?php	
 
 
-$team_id = get_the_ID();  // Get the current team ID
-display_team_results($team_id);
+			$team_id = get_the_ID();  // Get the current team ID
+			display_team_results($team_id);
 			
 
 			the_post_navigation(
