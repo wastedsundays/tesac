@@ -119,6 +119,8 @@ function display_team_results($team_id) {
     $args = array(
         'post_type' => 'schedule',  // Make sure 'schedule' is your custom post type
         'posts_per_page' => -1,     // Get all the posts
+        'orderby' => 'date',        // Order by date
+        'order' => 'ASC',           // Ascending order
     );
 
     $query = new WP_Query($args);
@@ -126,63 +128,81 @@ function display_team_results($team_id) {
     if ($query->have_posts()) {
         echo '<div class="team-results-container card-container">';
         echo '<h2>Team Results</h2>';
-        echo '<ul class="team-results">';
+        // echo '<ul class="team-results">';
+        ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Opponent</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+        <?php
         while ($query->have_posts()) {
             $query->the_post();
-            
-            // Loop through sheets (1 to 6)
-            for ($i = 1; $i <= 6; $i++) {
-                // Get the relevant fields dynamically based on the sheet number
-                $team_1_field = 'team_1_sheet_' . $i;
-                $team_2_field = 'team_2_sheet_' . $i;
-                $game_result_field = 'game_result_sheet_' . $i;
 
-                $team_1_post = get_field($team_1_field);
-                $team_2_post = get_field($team_2_field);
-                $current_result = get_field($game_result_field);
-                
-                // Skip if no team found for the sheet or no result for the game
-                if (!$team_1_post || !$team_2_post || !$current_result) {
-                    continue;
-                }
+                    // Loop through sheets (1 to 6)
+                    for ($i = 1; $i <= 6; $i++) {
+                        // Get the relevant fields dynamically based on the sheet number
+                        $team_1_field = 'team_1_sheet_' . $i;
+                        $team_2_field = 'team_2_sheet_' . $i;
+                        $game_result_field = 'game_result_sheet_' . $i;
 
-                // Check if the team is involved in this match
-                if ($team_1_post->ID === $team_id || $team_2_post->ID === $team_id) {
-                    // Determine which team is the current team
-                    if ($team_1_post->ID === $team_id) {
-                        $opponent = $team_2_post;
-                        // Compare current result to team_1_sheet_X or team_2_sheet_X to determine win/loss
-                        if ($current_result === $team_1_field) {
-                            $result = 'Win';
-                        } elseif ($current_result === $team_2_field) {
-                            $result = 'Loss';
-                        } elseif ($current_result === 'tie') {
-                            $result = 'Draw';
-                        } else {
-                            $result = 'No Result'; // If there's an unexpected value
+                        $team_1_post = get_field($team_1_field);
+                        $team_2_post = get_field($team_2_field);
+                        $current_result = get_field($game_result_field);
+                        
+                        // Skip if no team found for the sheet or no result for the game
+                        if (!$team_1_post || !$team_2_post || !$current_result) {
+                            continue;
                         }
-                    } else {
-                        $opponent = $team_1_post;
-                        // Compare current result to team_2_sheet_X or team_1_sheet_X to determine win/loss
-                        if ($current_result === $team_2_field) {
-                            $result = 'Win';
-                        } elseif ($current_result === $team_1_field) {
-                            $result = 'Loss';
-                        } elseif ($current_result === 'tie') {
-                            $result = 'Draw';
-                        } else {
-                            $result = 'No Result'; // If there's an unexpected value
-                        }
-                    }
 
-                    // Output the result for this match
-                    echo '<li>';
-                    echo 'vs ' . get_the_title($opponent->ID) . ' : ' . $result;
-                    echo '</li>';
+                        // Check if the team is involved in this match
+                        if ($team_1_post->ID === $team_id || $team_2_post->ID === $team_id) {
+                            // Determine which team is the current team
+                            if ($team_1_post->ID === $team_id) {
+                                $opponent = $team_2_post;
+                                // Compare current result to team_1_sheet_X or team_2_sheet_X to determine win/loss
+                                if ($current_result === $team_1_field) {
+                                    $result = '<span class="win-result">W</span>';
+                                } elseif ($current_result === $team_2_field) {
+                                    $result = '<span class="loss-result">L</span>';
+                                } elseif ($current_result === 'tie') {
+                                    $result = '<span class="tie-result">T</span>';
+                                } else {
+                                    $result = ''; // If there's an unexpected value
+                                }
+                            } else {
+                                $opponent = $team_1_post;
+                                // Compare current result to team_2_sheet_X or team_1_sheet_X to determine win/loss
+                                if ($current_result === $team_2_field) {
+                                    $result = '<span class="win-result">W</span>';
+                                } elseif ($current_result === $team_1_field) {
+                                    $result = '<span class="loss-result">L</span>';
+                                } elseif ($current_result === 'tie') {
+                                    $result = '<span class="tie-result">T</span>';
+                                } else {
+                                    $result = ''; // If there's an unexpected value
+                                }
+                            }
+
+                            echo '<tr>';
+                            echo '<td>' . get_the_title($opponent->ID) . '</td>';  
+                            echo '<td>' . $result . '</td>';
+                            echo '</tr>';
+
+                    // // Output the result for this match
+                    // echo '<li>';
+                    // echo 'vs ' . get_the_title($opponent->ID) . ' : ' . $result;
+                    // echo '</li>';
                 }
             }
         }
-        echo '</ul>';
+        echo '</tbody>';
+        echo '</table>';
+        // echo '</ul>';
         echo '</div>';
     } else {
         echo 'No results found for this team.';

@@ -1,13 +1,15 @@
 <?php
 
 function enqueue_google_fonts() {
-    wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap', false);
+    wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap', false);
+    wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap', false);
 }
 add_action('wp_enqueue_scripts', 'enqueue_google_fonts');
 
+
 function custom_enqueue_styles() {
     // Enqueue main theme stylesheet (optional)
-    // wp_enqueue_style('theme-style', get_stylesheet_uri());
+    wp_enqueue_style('theme-style', get_stylesheet_uri());
     
     // Enqueue additional stylesheet
     wp_enqueue_style('custom-style', get_template_directory_uri() . '/style-custom.css');
