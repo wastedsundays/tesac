@@ -342,6 +342,7 @@ function upcoming_schedule_shortcode($atts) {
 
             // Start post output
             $output .= '<div class="schedule-post">';
+            $output .= '<h2>Upcoming Schedule</h2>';
             $output .= '<h3>' . get_the_title() . ' - ' . $formatted_date . '</h3>';
             
             // Loop through sheets (1 to 6)
@@ -377,3 +378,77 @@ function upcoming_schedule_shortcode($atts) {
 }
 
 add_shortcode('upcoming_schedule', 'upcoming_schedule_shortcode');
+
+
+
+function past_schedule_shortcode($atts) {
+    // Get today's date and calculate the date 7 days ago, excluding today
+    $today = current_time('Y-m-d'); 
+    $seven_days_ago = date('Y-m-d', strtotime($today . ' -7 days'));
+    $yesterday = date('Y-m-d', strtotime($today . ' -1 day'));
+
+    // Query the 'schedule' custom post type
+    $args = array(
+        'post_type' => 'schedule',
+        'posts_per_page' => -1, // Get all posts
+        'meta_query' => array(
+            array(
+                'key' => 'date',
+                'value' => array($seven_days_ago, $yesterday),
+                'compare' => 'BETWEEN',
+                'type' => 'DATE',
+            ),
+        ),
+    );
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) {
+        $output = '<div class="past-schedule">';
+
+        // Loop through the posts
+        while ($query->have_posts()) {
+            $query->the_post();
+
+            // Get and format the date
+            $date = get_field('date');
+            $formatted_date = date('F j, Y g:i a', strtotime($date)); // format date
+
+            // Start post output
+            $output .= '<div class="schedule-post">';
+            $output .= '<h2>Recent Results</h2>';
+            $output .= '<h3>' . get_the_title() . ' - ' . $formatted_date . '</h3>';
+            
+            // Loop through sheets (1 to 6)
+            for ($sheet = 1; $sheet <= 6; $sheet++) {
+                // Retrieve the Post Objects for team 1 and team 2
+                $team_1 = get_field("team_1_sheet_{$sheet}");
+                $team_2 = get_field("team_2_sheet_{$sheet}");
+                
+                // Check if both teams are valid Post Objects and get their titles
+                if ($team_1 && $team_2) {
+                    // Get the post titles from the Post Objects
+                    $team_1_name = is_a($team_1, 'WP_Post') ? get_the_title($team_1) : '';
+                    $team_2_name = is_a($team_2, 'WP_Post') ? get_the_title($team_2) : '';
+
+                    $output .= '<div class="sheet">';
+                    $output .= '<strong>Sheet ' . $sheet . ':</strong> ';
+                    $output .= esc_html($team_1_name) . ' vs ' . esc_html($team_2_name);
+                    $output .= '</div>';
+                }
+            }
+
+            $output .= '</div>'; // Close schedule-post
+        }
+
+        $output .= '</div>'; // Close past-schedule
+        wp_reset_postdata();
+    } else {
+        $output = '<p>No schedules found in the past 7 days.</p>';
+    }
+
+    return $output;
+}
+
+add_shortcode('past_schedule', 'past_schedule_shortcode');
+
+

@@ -41,7 +41,7 @@ get_header();
 		</div>
 		<div class="card-container">
 		<?php
-			echo do_shortcode('[upcoming_schedule]');
+			echo do_shortcode('[past_schedule]');
 		?>
 		</div>
 		
