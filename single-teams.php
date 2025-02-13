@@ -66,14 +66,6 @@ get_header();
 			display_team_results($team_id);
 			
 
-			the_post_navigation(
-				array(
-					'prev_text' => '<span class="nav-subtitle">' . esc_html__( 'Previous:', 'tesac-curl' ) . '</span> <span class="nav-title">%title</span>',
-					'next_text' => '<span class="nav-subtitle">' . esc_html__( 'Next:', 'tesac-curl' ) . '</span> <span class="nav-title">%title</span>',
-				)
-			);
-
-
 		endwhile; // End of the loop.
 		?>
 

@@ -402,7 +402,7 @@ html {
 :root {
     --font-color: #222;
     --primary-color: navy;
-    --secondary-color: gold;
+    --secondary-color: rgba(253, 212, 17, 1);
     --tertiary-color:#1f8d1b;
     --card-background: rgba(255, 255, 255, 0.9);
 	--box-shadow: 0 0 13px rgba(0, 0, 0, 0.2);
@@ -585,11 +585,12 @@ table:not(.team-roster-container table) th:not(:first-child) {
 /* Links
 --------------------------------------------- */
 a {
-	color: #4169e1;
+	color: var(--primary-color);
+	text-decoration: none;
 }
 
 a:visited {
-	color: #800080;
+	/* color: #800080; */
 }
 
 a:hover,
@@ -605,6 +606,10 @@ a:focus {
 a:hover,
 a:active {
 	outline: 0;
+}
+
+.current-menu-item > a{
+	color: var(--secondary-color);
 }
 
 /* Forms
@@ -718,6 +723,32 @@ textarea {
 }
 
 /* team page things */
+
+.teams-page {
+	width: clamp(300px, 95%, 1200px);
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+
+}
+
+.teams-page .grid-title {
+	grid-column: 1 / -1;
+	text-align: center;
+	margin: 0;
+	width: 100%;
+	padding: 1.25rem;
+}
+
+.teams-page .card-container {
+	text-align: center;
+	margin-bottom: .75rem;
+	margin-top: .75rem;
+	font-family: 'bebas neue', sans-serif;
+	font-size: 1.5rem;
+}
+
+
 .team-page {
     display: grid;
 
@@ -838,11 +869,15 @@ textarea {
 
 .main-navigation li {
 	position: relative;
+	margin: 0 .5rem;
+	padding: .5rem;
 }
 
 .main-navigation a {
 	display: block;
 	text-decoration: none;
+	font-family: 'bebas neue', sans-serif;
+	font-size: 2.5rem;
 }
 
 /* Small menu. */
@@ -859,6 +894,7 @@ textarea {
 
 	.main-navigation ul {
 		display: flex;
+		justify-content: center;
 	}
 }
 

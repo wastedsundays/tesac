@@ -15,18 +15,59 @@
 get_header();
 ?>
 
-	<main id="primary" class="site-main">
+	<main id="primary" class="teams-page">
 
 		<?php
 		while ( have_posts() ) :
 			the_post();
 
-			get_template_part( 'template-parts/content', 'page' );
+			$currentSeason = 'winter-2025'; // Default season
 
-			// If comments are open or we have at least one comment, load up the comment template.
-			if ( comments_open() || get_comments_number() ) :
-				comments_template();
+			$args = array(
+				'post_type' => 'teams', 
+				'tax_query' => array(
+					array(
+						'taxonomy' => 'season', 
+						'field'    => 'slug', 
+						'terms'    => $currentSeason, 
+						'operator' => 'IN',
+
+					),
+				),
+				'posts_per_page' => -1, 
+				'orderby' => 'ID', 
+				'order' => 'ASC',
+			);
+
+			$query = new WP_Query( $args );
+
+			if ( $query->have_posts() ) :
+				$terms = get_terms( array(
+					'taxonomy' => 'season',
+					'slug' => $currentSeason,
+					'fields' => 'names',
+					) );
+
+					if (!empty($terms)) {
+						echo '<h1 class="grid-title">'. esc_html($terms[0]) . '</h1>';
+					}
+				while ( $query->have_posts() ) : $query->the_post();
+					// Output the content of each post
+					echo '<a href="' . get_permalink() . '">';
+						echo '<div class="card-container">';
+
+							echo '<p>' . get_the_title() . '</p>';
+							the_excerpt();
+
+						echo '</div>';
+					echo '</a>';
+
+				endwhile;
+				wp_reset_postdata(); // Reset post data after the loop
+			else :
+				echo 'No teams found for ' . esc_html($terms[0])  . ' season.';
 			endif;
+
 
 		endwhile; // End of the loop.
 		?>
@@ -34,5 +75,4 @@ get_header();
 	</main><!-- #main -->
 
 <?php
-get_sidebar();
 get_footer();

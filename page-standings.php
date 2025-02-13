@@ -20,7 +20,7 @@ get_header();
             <?php
             while (have_posts()) :
             the_post();
-            // get_template_part('template-parts/content', 'page');
+
             
 
             // Get all terms in the 'season' taxonomy to populate the dropdown
@@ -28,7 +28,7 @@ get_header();
                 'taxonomy' => 'season',
                 'orderby' => 'name',
                 'order' => 'ASC',
-                'hide_empty' => false, // Show all seasons
+                'hide_empty' => false, 
             )               );
 
             // Default season if no GET parameter is provided
@@ -64,7 +64,7 @@ get_header();
                 while ($query->have_posts()) {
                     $query->the_post();
                     
-                    // Get ACF fields safely
+                    // Get ACF fields
                     $wins   = get_field('wins') ?: 0;
                     $losses = get_field('losses') ?: 0;
                     $ties   = get_field('ties') ?: 0;
@@ -141,7 +141,7 @@ get_header();
                     </tbody>
                 </table>
             <?php else : ?>
-                <p>No teams found for this season.</p>
+                <p>No data found for this season.</p>
             <?php endif; ?>
 
 
