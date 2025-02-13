@@ -405,6 +405,7 @@ html {
     --secondary-color: gold;
     --tertiary-color:#1f8d1b;
     --card-background: rgba(255, 255, 255, 0.9);
+	--box-shadow: 0 0 13px rgba(0, 0, 0, 0.2);
 }
 
 /* Typography
@@ -703,11 +704,17 @@ textarea {
     margin: 2rem .75rem;
     background-color: var(--card-background);
     padding: 1rem;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow);
 }
 
 .card-container h2 {
     text-align: center;
+}
+
+/* standings page things */
+.standings-page {
+	width: clamp(300px, 95%, 1000px);
+	margin: 0 auto;
 }
 
 /* team page things */
@@ -844,7 +851,7 @@ textarea {
 	display: block;
 }
 
-@media screen and (min-width: 37.5em) {
+@media screen and (min-width: 65em) {
 
 	.menu-toggle {
 		display: none;
