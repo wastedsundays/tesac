@@ -31,11 +31,20 @@ get_header();
 		</div>
 		<div class="card-container">
 		<?php
-		// 
 			echo do_shortcode('[condensed_standings]');
-
-?>
-</div>
+		?>
+		</div>
+		<div class="card-container">
+		<?php
+			echo do_shortcode('[upcoming_schedule]');
+		?>
+		</div>
+		<div class="card-container">
+		<?php
+			echo do_shortcode('[upcoming_schedule]');
+		?>
+		</div>
+		
 		<?php
 		endwhile; // End of the loop.
 		?>
