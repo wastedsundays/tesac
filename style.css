@@ -763,10 +763,10 @@ textarea {
 
 @media (min-width: 1100px) {
     .team-page {
-        grid-template-areas: "info results"
-                             "roster results"
-                             "nav nav";
-        grid-template-columns: 60% 40%;
+        grid-template-areas: "info . results"
+                             "roster . results"
+                             "nav nav nav";
+        grid-template-columns: 60% 1rem 1fr;
     }
 }
 
@@ -822,6 +822,14 @@ textarea {
 
 .tie-result {
     color: black;
+}
+
+/* Header
+--------------------------------------------- */
+
+.site-branding {
+	position: absolute;
+	display: none;
 }
 
 /* Navigation
@@ -884,6 +892,12 @@ textarea {
 .menu-toggle,
 .main-navigation.toggled ul {
 	display: block;
+}
+
+.menu-toggle {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
 }
 
 @media screen and (min-width: 65em) {

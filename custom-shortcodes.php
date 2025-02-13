@@ -210,3 +210,96 @@ function display_team_results($team_id) {
 
     wp_reset_postdata();
 }
+
+
+
+function display_condensed_standings($atts) {
+    // Set default attributes (can be overridden with [team_standings season="season-slug"])
+    $atts = shortcode_atts(
+        array(
+            'season' => 'winter-2025', // Default season
+        ), 
+        $atts
+    );
+
+    // Query teams based on the selected season
+    $args = array(
+        'post_type'      => 'teams',
+        'posts_per_page' => -1,
+        'tax_query'      => array(
+            array(
+                'taxonomy' => 'season',
+                'field'    => 'slug',
+                'terms'    => $atts['season'],
+            ),
+        ),
+    );
+
+    $query = new WP_Query($args);
+
+    // Store results in an array
+    $teams = array();
+
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            
+            // Get ACF fields
+            $wins   = get_field('wins') ?: 0;
+            $losses = get_field('losses') ?: 0;
+            $ties   = get_field('ties') ?: 0;
+            $points = ($wins * 2) + $ties;
+
+            // Store data for sorting
+            $teams[] = array(
+                'name'   => get_the_title(),
+                'ID'     => get_the_ID(),
+                'points' => $points,
+            );
+        }
+    }
+    wp_reset_postdata();
+
+    // Sort teams by Points DESC
+    usort($teams, function ($a, $b) {
+        return $b['points'] - $a['points']; // Sort by points DESC
+    });
+
+    // Start the output
+    ob_start();
+    ?>
+    <h1><?php echo get_the_title(); ?></h1>
+
+    <!-- Display the Standings Table with only Team Name and Points -->
+    <?php if (!empty($teams)) : ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>Team Name</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($teams as $team) : ?>
+                    <tr>
+                        <td>
+                            <a href="<?php echo esc_url(get_permalink($team['ID']));?>">
+                                <?php echo esc_html($team['name']); ?>
+                            </a>
+                        </td>
+                        <td><?php echo esc_html($team['points']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else : ?>
+        <p>No data found for this season.</p>
+    <?php endif; ?>
+
+    <?php
+    // Capture the output and return it
+    return ob_get_clean();
+}
+
+// Register the shortcode
+add_shortcode('condensed_standings', 'display_condensed_standings');
