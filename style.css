@@ -394,6 +394,19 @@ html {
 # Base
 --------------------------------------------------------------*/
 
+/* 
+* Declare some variables for use in the theme. 
+*/
+/* variables */
+
+:root {
+    --font-color: #222;
+    --primary-color: navy;
+    --secondary-color: gold;
+    --tertiary-color:#1f8d1b;
+    --card-background: rgba(255, 255, 255, 0.9);
+}
+
 /* Typography
 --------------------------------------------- */
 body,
@@ -538,8 +551,8 @@ table th {
 	font-family: 'Bebas Neue', sans-serif;
 	font-weight: 400;
 	font-size: 1.25rem;
-	background-color: navy;
-	color: gold;
+	background-color: var(--primary-color);
+	color: var(--secondary-color);
 	padding: 1rem;
 	text-align: left;
   }
@@ -563,7 +576,7 @@ table:not(.team-roster-container table) th:not(:first-child) {
 
   table td {
 	font-family: 'Inter', sans-serif;
-	border-bottom: 2px solid navy;
+	border-bottom: 1px solid var(--primary-color);
 	padding: 1rem;
   }
 
@@ -682,6 +695,96 @@ textarea {
 /*--------------------------------------------------------------
 # Components
 --------------------------------------------------------------*/
+
+/* Card Containers */
+
+.card-container {
+    border-radius: .75rem;
+    margin: 2rem .75rem;
+    background-color: var(--card-background);
+    padding: 1rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-container h2 {
+    text-align: center;
+}
+
+/* team page things */
+.team-page {
+    display: grid;
+
+    grid-template-areas: "info"
+                         "roster"
+                         "results"
+                         "nav";
+    width: clamp(300px, 95%, 1600px);
+    margin: 0 auto;
+    padding:2rem 1rem;
+}
+
+@media (min-width: 1100px) {
+    .team-page {
+        grid-template-areas: "info results"
+                             "roster results"
+                             "nav nav";
+        grid-template-columns: 60% 40%;
+    }
+}
+
+.team-info-container {
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.team-info-container p {
+    font-size: 2rem;
+    font-family: 'Bebas Neue', sans-serif;
+    margin: 0 0 1rem;
+}
+
+
+@media (min-width: 720px ) {
+    .team-info-container {
+        flex-direction: row;
+    }
+
+    .team-info-container p {
+        margin: 0;
+    }
+}
+
+
+.team-roster-container {
+    grid-area: roster;
+}
+
+.team-results-container {
+    grid-area: results;
+}
+
+.team-results-container td {
+    padding:  .5rem 1rem;
+}
+
+.team-page .post-navigation {
+    grid-area: nav;
+}
+
+.win-result {
+    color: green;
+}
+
+.loss-result {
+    color: red;
+}  
+
+.tie-result {
+    color: black;
+}
 
 /* Navigation
 --------------------------------------------- */
