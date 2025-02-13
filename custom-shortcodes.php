@@ -268,7 +268,7 @@ function display_condensed_standings($atts) {
     // Start the output
     ob_start();
     ?>
-    <h1><?php echo get_the_title(); ?></h1>
+    <h2>Standings</h2>
 
     <!-- Display the Standings Table with only Team Name and Points -->
     <?php if (!empty($teams)) : ?>
