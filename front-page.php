@@ -23,23 +23,23 @@ get_header();
 
 			// get_template_part( 'template-parts/content', 'page' );
 			?>
-			<div class="card-container">
+			<div class="card-container welcome-card">
 			<h1>Welcome to TESAC</h1>
 			<img src="https://cdn.prod.website-files.com/5d655866b2055c7cbb5d79a1/66b4f249a6af63cbaa044e9f_022823_MikeSchut059.jpg" alt="Curling">
 			<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis modi qui libero doloribus eveniet? Voluptas modi eveniet ex, quibusdam quaerat expedita aliquam fugiat rerum perspiciatis est, ab nisi velit itaque.</p>
 			
 		</div>
-		<div class="card-container">
+		<div class="card-container condensed-standings-card">
 		<?php
 			echo do_shortcode('[condensed_standings]');
 		?>
 		</div>
-		<div class="card-container">
+		<div class="card-container upcoming-card">
 		<?php
 			echo do_shortcode('[upcoming_schedule]');
 		?>
 		</div>
-		<div class="card-container">
+		<div class="card-container results-card">
 		<?php
 			echo do_shortcode('[past_schedule]');
 		?>

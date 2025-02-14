@@ -716,6 +716,31 @@ textarea {
     text-align: center;
 }
 
+/* home page things */
+.tesac-home {
+	width: clamp(300px, 95%, 1200px);
+	margin: 0 auto;
+}
+
+@media (min-width: 1100px) {
+	.tesac-home {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+	}
+
+	.welcome-card {
+		grid-column: span 3;
+	}
+
+	.upcoming-card {
+		grid-column: span 2;
+	}
+
+	.results-card {
+		grid-column: span 2;
+	}
+}
+
 /* standings page things */
 .standings-page {
 	width: clamp(300px, 95%, 1000px);
