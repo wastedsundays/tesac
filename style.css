@@ -741,6 +741,10 @@ textarea {
 	}
 }
 
+.previous-draw {
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
 /* standings page things */
 .standings-page {
 	width: clamp(300px, 95%, 1000px);
