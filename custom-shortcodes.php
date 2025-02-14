@@ -423,16 +423,36 @@ function past_schedule_shortcode($atts) {
                 // Retrieve the Post Objects for team 1 and team 2
                 $team_1 = get_field("team_1_sheet_{$sheet}");
                 $team_2 = get_field("team_2_sheet_{$sheet}");
-                
+                $game_result_field = "game_result_sheet_{$sheet}";
+                $current_result = get_field($game_result_field); // Get the result
+
                 // Check if both teams are valid Post Objects and get their titles
                 if ($team_1 && $team_2) {
                     // Get the post titles from the Post Objects
                     $team_1_name = is_a($team_1, 'WP_Post') ? get_the_title($team_1) : '';
                     $team_2_name = is_a($team_2, 'WP_Post') ? get_the_title($team_2) : '';
 
+                    // Initialize the results
+                    $team_1_result = '-';
+                    $team_2_result = '-';
+
+                    // Determine the results for both teams
+                    if ($current_result) {
+                        if ($current_result === "team_1_sheet_{$sheet}") {
+                            $team_1_result = '<span class="win-result">W</span>';
+                            $team_2_result = '<span class="loss-result">L</span>';
+                        } elseif ($current_result === "team_2_sheet_{$sheet}") {
+                            $team_1_result = '<span class="loss-result">L</span>';
+                            $team_2_result = '<span class="win-result">W</span>';
+                        } elseif ($current_result === 'tie') {
+                            $team_1_result = '<span class="tie-result">T</span>';
+                            $team_2_result = '<span class="tie-result">T</span>';
+                        }
+                    }
+
+                    // Output the match info with both teams' results
                     $output .= '<div class="sheet">';
-                    $output .= '<strong>Sheet ' . $sheet . ':</strong> ';
-                    $output .= esc_html($team_1_name) . ' vs ' . esc_html($team_2_name);
+                    $output .= esc_html($team_1_name) . ' - ' . $team_1_result . ' vs ' . esc_html($team_2_name) . ' - ' . $team_2_result;
                     $output .= '</div>';
                 }
             }
@@ -450,5 +470,7 @@ function past_schedule_shortcode($atts) {
 }
 
 add_shortcode('past_schedule', 'past_schedule_shortcode');
+
+
 
 
