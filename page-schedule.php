@@ -78,7 +78,7 @@ get_header();
 						?>
 						<div class="schedule-post card-container <?php echo $draw['class']; ?>">
 							<h2><?php echo $draw['title']; ?></h2>
-							<p><?php echo $draw['formatted_date']; ?></p>
+							<p class="schedule-date-time"><?php echo $draw['formatted_date']; ?></p>
 						</div>
 						<?php
 					}
@@ -90,7 +90,7 @@ get_header();
 						?>
 						<div class="schedule-post card-container <?php echo $draw['class']; ?>">
 							<h2><?php echo $draw['title']; ?></h2>
-							<p><?php echo $draw['formatted_date']; ?></p>
+							<p class="schedule-date-time"><?php echo $draw['formatted_date']; ?></p>
 						</div>
 						<?php
 					}
@@ -113,5 +113,5 @@ get_header();
 	</main><!-- #main -->
 
 <?php
-get_sidebar();
+
 get_footer();
