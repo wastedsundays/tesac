@@ -31,66 +31,97 @@ get_header();
 				'orderby' => 'date',
 				'order' => 'ASC' 
 			);
-			$query = new WP_Query( $args );
+			$query = new WP_Query($args);
 			
-
 			$upcoming_draws = array();
 			$past_draws = array();
 			
-
-			if ( $query->have_posts() ) :
+			if ($query->have_posts()) :
 			
-	
-				while ( $query->have_posts() ) : $query->the_post();
-					
-	
+				while ($query->have_posts()) : $query->the_post();
+			
 					$date = get_field('date');
 					$formatted_date = date('F j, Y g:i a', strtotime($date));
-					
-
 					$current_date = current_time('Y-m-d H:i:s'); // Get current time in proper format
-					$post_date = get_field('date'); 
-					
+			
+					// Store the draw info (Title and Date)
+					$draw_info = array(
+						'title' => get_the_title(),
+						'formatted_date' => $formatted_date,
+						'class' => (strtotime($date) < strtotime($current_date)) ? 'previous-draw' : 'upcoming-draw',
+						'sheets' => array() 
+					);
+			
+					// Loop through sheets 1 to 6
+					for ($sheet_number = 1; $sheet_number <= 6; $sheet_number++) {
+						$team_1 = get_field("team_1_sheet_$sheet_number");
+						$team_2 = get_field("team_2_sheet_$sheet_number");
+			
 
-					if (strtotime($post_date) < strtotime($current_date)) {
+						if ($team_1) {
+							$team_1 = get_the_title($team_1);
+						}
+						if ($team_2) {
+							$team_2 = get_the_title($team_2);
+						}
+			
 
-						$past_draws[] = array(
-							'title' => get_the_title(),
-							'formatted_date' => $formatted_date,
-							'class' => 'previous-draw'
-						);
+						if ($team_1 && $team_2) {
+							$draw_info['sheets'][] = array(
+								'sheet' => $sheet_number,
+								'team_1' => $team_1,
+								'team_2' => $team_2
+							);
+						}
+					}
+			
+					// Organize into past or upcoming draws
+					if ($draw_info['class'] == 'previous-draw') {
+						$past_draws[] = $draw_info;
 					} else {
-
-						$upcoming_draws[] = array(
-							'title' => get_the_title(),
-							'formatted_date' => $formatted_date,
-							'class' => 'upcoming-draw'
-						);
+						$upcoming_draws[] = $draw_info;
 					}
 			
 				endwhile;
-
-				
 			
-				// upcoming draws
+				// Display upcoming draws
 				if (!empty($upcoming_draws)) {
 					foreach ($upcoming_draws as $draw) {
 						?>
 						<div class="schedule-post card-container <?php echo $draw['class']; ?>">
 							<h2><?php echo $draw['title']; ?></h2>
 							<p class="schedule-date-time"><?php echo $draw['formatted_date']; ?></p>
+							<div class="draw-matchups">
+							<?php
+							// Loop through sheets and display each match
+							foreach ($draw['sheets'] as $sheet) {
+								?>
+								<p>Sheet <?php echo $sheet['sheet']; ?>: <?php echo $sheet['team_1']; ?> vs <?php echo $sheet['team_2']; ?></p>
+								<?php
+							}
+							?>
+							</div>
 						</div>
 						<?php
 					}
 				}
 			
-				// Past draws
+				// Display past draws
 				if (!empty($past_draws)) {
 					foreach ($past_draws as $draw) {
 						?>
 						<div class="schedule-post card-container <?php echo $draw['class']; ?>">
 							<h2><?php echo $draw['title']; ?></h2>
 							<p class="schedule-date-time"><?php echo $draw['formatted_date']; ?></p>
+			
+							<?php
+							// Loop through sheets and display each match
+							foreach ($draw['sheets'] as $sheet) {
+								?>
+								<p>Sheet <?php echo $sheet['sheet']; ?>: <?php echo $sheet['team_1']; ?> vs <?php echo $sheet['team_2']; ?></p>
+								<?php
+							}
+							?>
 						</div>
 						<?php
 					}
@@ -102,6 +133,8 @@ get_header();
 			else :
 				echo 'No schedule posts found.';
 			endif;
+			
+			
 
 			
 
