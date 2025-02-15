@@ -11,17 +11,23 @@ function enqueue_custom_script() {
     if (is_page('Schedule')) { 
         wp_enqueue_script('custom-scripts', get_template_directory_uri() . '/js/custom-script.js', array(), null, true);
     }
+    
 }
 add_action('wp_enqueue_scripts', 'enqueue_custom_script');
 
+function custom_active_teams_class($classes, $item, $args) {
+    // Check if we are on a team page
+    if (is_single() && strpos($_SERVER['REQUEST_URI'], '/teams/') !== false) {
+        // If we're on the teams page or any individual team page
+        if ($item->title == 'Teams') {
+            // Add a custom class to the "Teams" menu item
+            $classes[] = 'current-menu-item';
+        }
+    }
+    return $classes;
+}
+add_filter('nav_menu_css_class', 'custom_active_teams_class', 10, 3);
 
-// function custom_enqueue_styles() {
-//     // Enqueue additional stylesheet
-//     wp_enqueue_style('custom-style', get_template_directory_uri() . '/style-custom.css');
-//     // Enqueue main theme stylesheet (optional)
-//     wp_enqueue_style('theme-style', get_stylesheet_uri());
-// }
-// add_action('wp_enqueue_scripts', 'custom_enqueue_styles');
 
 
 function register_teams_cpt() {
