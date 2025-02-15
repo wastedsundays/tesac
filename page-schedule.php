@@ -99,7 +99,7 @@ get_header();
 								<div class="single-matchup">
 									<p class="sheet-header">Sheet <?php echo $sheet['sheet']; ?>:</p>
 									<p><?php echo $sheet['team_1']; ?></p>
-									<p>vs</p>
+									<p class="smaller-text">vs</p>
 									<p><?php echo $sheet['team_2']; ?></p>
 								</div>
 								<?php
@@ -126,7 +126,7 @@ get_header();
 								<div class="single-matchup">
 									<p class="sheet-header">Sheet <?php echo $sheet['sheet']; ?>:</p>
 									<p><?php echo $sheet['team_1']; ?></p>
-									<p>vs</p>
+									<p class="smaller-text">vs</p>
 									<p><?php echo $sheet['team_2']; ?></p>
 								</div>
 

@@ -434,6 +434,15 @@ h6 {
 	font-weight: 400;
 }
 
+.smaller-text {
+	font-size: 0.8rem;
+}
+
+.smaller-text::before, .smaller-text::after {
+	content: "---";
+	font-size: 0.7rem;
+}
+
 p {
 
 }
@@ -494,11 +503,13 @@ body {
 
 main {
 		padding-top: 6rem;
+		padding-bottom: 6rem;
 }
 
 @media (min-width: 1040px) {
 	main {
 		padding-top: 9rem;
+		padding-bottom: 9rem;
 	}
 }
 
@@ -794,6 +805,7 @@ textarea {
 	text-align: center;
 	background-color: var(--primary-color);
 	color: var(--secondary-color);
+	border-radius: .5rem .5rem 0 0;
 }
 
 .schedule-post.open .draw-matchups {
@@ -809,6 +821,10 @@ textarea {
 .standings-page {
 	width: clamp(300px, 95%, 1000px);
 	margin: 0 auto;
+}
+
+.standings-page form {
+	margin-bottom: 2rem;
 }
 
 .condensed-standings-card table {
