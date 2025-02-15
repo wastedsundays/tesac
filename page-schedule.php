@@ -113,7 +113,7 @@ get_header();
 						<div class="schedule-post card-container <?php echo $draw['class']; ?>">
 							<h2><?php echo $draw['title']; ?></h2>
 							<p class="schedule-date-time"><?php echo $draw['formatted_date']; ?></p>
-			
+							<div class="draw-matchups">
 							<?php
 							// Loop through sheets and display each match
 							foreach ($draw['sheets'] as $sheet) {
@@ -122,6 +122,7 @@ get_header();
 								<?php
 							}
 							?>
+							</div>
 						</div>
 						<?php
 					}

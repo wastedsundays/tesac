@@ -747,17 +747,30 @@ textarea {
 	width: clamp(300px, 95%, 1200px);
 	margin: 0 auto;
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+	align-items: start;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	cursor: pointer;
 }
 
 .schedule-date-time {
 	text-align: center;
+	display: block;
 }
 
+.draw-matchups {
+	overflow: hidden;
+	height: 0;
+	transition: height 0.3s ease-in-out;
+}
+
+.schedule-post.open .draw-matchups {
+	height: auto;
+}
 
 .previous-draw {
 	background-color: rgba(0, 0, 0, 0.2);
 }
+
 
 /* standings page things */
 .standings-page {

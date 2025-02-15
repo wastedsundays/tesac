@@ -6,6 +6,14 @@ function enqueue_google_fonts() {
 }
 add_action('wp_enqueue_scripts', 'enqueue_google_fonts');
 
+function enqueue_custom_script() {
+
+    if (is_page('Schedule')) { 
+        wp_enqueue_script('custom-scripts', get_template_directory_uri() . '/js/custom-script.js', array(), null, true);
+    }
+}
+add_action('wp_enqueue_scripts', 'enqueue_custom_script');
+
 
 // function custom_enqueue_styles() {
 //     // Enqueue additional stylesheet
