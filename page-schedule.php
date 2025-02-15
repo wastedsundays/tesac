@@ -96,8 +96,8 @@ get_header();
 							// Loop through sheets and display each match
 							foreach ($draw['sheets'] as $sheet) {
 								?>
-								<div>
-									<p>Sheet <?php echo $sheet['sheet']; ?>:</p>
+								<div class="single-matchup">
+									<p class="sheet-header">Sheet <?php echo $sheet['sheet']; ?>:</p>
 									<p><?php echo $sheet['team_1']; ?></p>
 									<p>vs</p>
 									<p><?php echo $sheet['team_2']; ?></p>
@@ -123,13 +123,13 @@ get_header();
 							// Loop through sheets and display each match
 							foreach ($draw['sheets'] as $sheet) {
 								?>
-								<div>
-									<p>Sheet <?php echo $sheet['sheet']; ?>:</p>
+								<div class="single-matchup">
+									<p class="sheet-header">Sheet <?php echo $sheet['sheet']; ?>:</p>
 									<p><?php echo $sheet['team_1']; ?></p>
 									<p>vs</p>
 									<p><?php echo $sheet['team_2']; ?></p>
 								</div>
-								<p>Sheet <?php echo $sheet['sheet']; ?>: <?php echo $sheet['team_1']; ?> vs <?php echo $sheet['team_2']; ?></p>
+
 								<?php
 							}
 							?>

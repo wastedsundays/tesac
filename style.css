@@ -778,6 +778,24 @@ textarea {
 	transition: height 0.3s ease-in-out;
 }
 
+.single-matchup {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 2rem;
+}
+
+.single-matchup p {
+	margin: 0;
+}
+
+.sheet-header {
+	width: 100%;
+	text-align: center;
+	background-color: var(--primary-color);
+	color: var(--secondary-color);
+}
+
 .schedule-post.open .draw-matchups {
 	height: auto;
 }
@@ -833,7 +851,6 @@ textarea {
                          "nav";
     width: clamp(300px, 95%, 1600px);
     margin: 0 auto;
-    padding:2rem 1rem;
 }
 
 @media (min-width: 1100px) {
