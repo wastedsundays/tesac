@@ -114,32 +114,34 @@ get_header();
 
             <!-- Display the Standings Table -->
             <?php if (!empty($teams)) : ?>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Team Name</th>
-                            <th>Wins</th>
-                            <th>Losses</th>
-                            <th>Ties</th>
-                            <th>Points</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($teams as $team) : ?>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
                             <tr>
-                                <td>
-                                    <a href="<?php echo esc_url(get_permalink($team['ID']));?>">
-                                    <?php echo esc_html($team['name']); ?>
-                                    </a>
-                                </td>
-                                <td><?php echo esc_html($team['wins']); ?></td>
-                                <td><?php echo esc_html($team['losses']); ?></td>
-                                <td><?php echo esc_html($team['ties']); ?></td>
-                                <td><?php echo esc_html($team['points']); ?></td>
+                                <th>Team Name</th>
+                                <th>Wins</th>
+                                <th>Losses</th>
+                                <th>Ties</th>
+                                <th>Points</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($teams as $team) : ?>
+                                <tr>
+                                    <td>
+                                        <a href="<?php echo esc_url(get_permalink($team['ID']));?>">
+                                        <?php echo esc_html($team['name']); ?>
+                                        </a>
+                                    </td>
+                                    <td><?php echo esc_html($team['wins']); ?></td>
+                                    <td><?php echo esc_html($team['losses']); ?></td>
+                                    <td><?php echo esc_html($team['ties']); ?></td>
+                                    <td><?php echo esc_html($team['points']); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             <?php else : ?>
                 <p>No data found for this season.</p>
             <?php endif; ?>
