@@ -23,14 +23,26 @@ get_header();
 
 			get_template_part( 'template-parts/content', 'page' );
 
+			$season_slug = get_option('tesac_current_season', 'winter-2025'); // Default to 'winter-2025' if no option is set
+
 
 
 			$args = array(
 				'post_type' => 'schedule',
-				'posts_per_page' => -1, 
+				'posts_per_page' => -1,
 				'orderby' => 'date',
-				'order' => 'ASC' 
+				'order' => 'ASC',
+				'tax_query' => array(
+					array(
+						'taxonomy' => 'season', // Replace 'season' with your actual taxonomy name if it's different
+						'field' => 'slug',
+						'terms' => $season_slug, // Filter by the season slug
+						'operator' => 'IN', // Use 'IN' to match any of the terms in the array
+					),
+				),
 			);
+			
+			// Execute the query
 			$query = new WP_Query($args);
 			
 			$upcoming_draws = array();
@@ -57,7 +69,6 @@ get_header();
 						$team_1 = get_field("team_1_sheet_$sheet_number");
 						$team_2 = get_field("team_2_sheet_$sheet_number");
 			
-
 						if ($team_1) {
 							$team_1 = get_the_title($team_1);
 						}
@@ -65,7 +76,6 @@ get_header();
 							$team_2 = get_the_title($team_2);
 						}
 			
-
 						if ($team_1 && $team_2) {
 							$draw_info['sheets'][] = array(
 								'sheet' => $sheet_number,
@@ -129,7 +139,6 @@ get_header();
 									<p class="smaller-text">vs</p>
 									<p><?php echo $sheet['team_2']; ?></p>
 								</div>
-
 								<?php
 							}
 							?>
@@ -143,7 +152,7 @@ get_header();
 				wp_reset_postdata();
 			
 			else :
-				echo 'No schedule posts found.';
+				echo 'No schedule exists for the current season.';
 			endif;
 			
 			

@@ -21,7 +21,6 @@ get_header();
 		while ( have_posts() ) :
 			the_post();
 
-			// $currentSeason = 'winter-2025'; // Default season
 			$season_slug = get_option('tesac_current_season', 'winter-2025'); // Default to 'winter-2025' if no option is set
 
 			$args = array(
@@ -52,11 +51,11 @@ get_header();
 					if (!empty($terms) && is_array($terms)) {
 						echo '<h1 class="grid-title">'. esc_html($terms[0]) . '</h1>';
 					} else {
-						// If $terms is empty, use the default season slug or a fallback message
+
 						echo '<h1 class="grid-title">Season: ' . esc_html( $season_slug ) . '</h1>';
 					}
 				while ( $query->have_posts() ) : $query->the_post();
-					// Output the content of each post
+
 					echo '<a href="' . get_permalink() . '">';
 						echo '<div class="card-container">';
 
