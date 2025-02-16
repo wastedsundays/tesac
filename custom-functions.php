@@ -78,6 +78,10 @@ function register_teams_cpt() {
         'exclude_from_search'   => false,
         'publicly_queryable'    => true,
         'capability_type'       => 'post',
+        'rewrite'               => array('slug' => 'teams/%season%',
+                                        'with_front' => false,
+                                        'feeds' => true,
+                                    ),
     );
     
     register_post_type( 'teams', $args );
@@ -114,11 +118,14 @@ function register_season_taxonomy() {
     $args = array(
         'labels'                     => $labels,
         'hierarchical'               => true,
+        'has_archive'                => false,
         'public'                     => true,
         'show_ui'                    => true,
         'show_admin_column'          => true,
         'query_var'                  => true,
-        'rewrite'                    => array( 'slug' => 'season' ),
+        'rewrite'                    => array( 'slug' => 'season',
+                                            'with_front' => false,
+                                        ),
     );
     
     register_taxonomy( 'season', array( 'teams', 'schedule' ), $args );
@@ -181,6 +188,24 @@ function register_players_cpt() {
 }
 
 add_action( 'init', 'register_players_cpt', 0 );
+
+function custom_team_permalink( $permalink, $post ) {
+    // Check if it's a team post type
+    if ( 'teams' === get_post_type( $post ) ) {
+        // Get the terms for the season taxonomy
+        $terms = wp_get_post_terms( $post->ID, 'season' );
+        
+        // Check if the team has a season assigned
+        if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+            // Use the season slug in the permalink
+            $season_slug = $terms[0]->slug;
+            $permalink = str_replace( '%season%', $season_slug, $permalink );
+        }
+    }
+    return $permalink;
+}
+
+add_filter( 'post_type_link', 'custom_team_permalink', 10, 2 );
 
 
 function register_games_schedule_cpt() {
