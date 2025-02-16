@@ -34,10 +34,10 @@ get_header();
 				'order' => 'ASC',
 				'tax_query' => array(
 					array(
-						'taxonomy' => 'season', // Replace 'season' with your actual taxonomy name if it's different
+						'taxonomy' => 'season', 
 						'field' => 'slug',
-						'terms' => $season_slug, // Filter by the season slug
-						'operator' => 'IN', // Use 'IN' to match any of the terms in the array
+						'terms' => $season_slug, 
+						'operator' => 'IN', 
 					),
 				),
 			);
