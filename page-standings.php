@@ -32,7 +32,9 @@ get_header();
             )               );
 
             // Default season if no GET parameter is provided
-            $season_slug = 'winter-2025'; // Default season
+            // $season_slug = 'winter-2025'; // Default season
+            $season_slug = get_option('tesac_current_season', 'winter-2025'); // Default to 'winter-2025' if no option is set
+
 
             if (isset($_GET['season'])) {
                 if (is_string($_GET['season']) && !empty(trim($_GET['season']))) {

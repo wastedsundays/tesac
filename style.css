@@ -401,9 +401,9 @@ html {
 
 :root {
     --font-color: #222;
-    --primary-color: navy;
+    /* --primary-color: navy;
     --secondary-color: rgba(253, 212, 17, 1);
-    --tertiary-color:#1f8d1b;
+    --tertiary-color:#1f8d1b; */
     --card-background: rgba(255, 255, 255, 0.9);
 	--box-shadow: 0 0 13px rgba(0, 0, 0, 0.2);
 }

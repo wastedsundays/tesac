@@ -473,3 +473,143 @@ $team_fields = [
 foreach ($team_fields as $field_name) {
     add_filter("acf/fields/post_object/query/name={$field_name}", 'filter_teams_by_season', 10, 3);
 }
+
+
+// Custom Admin Page
+function tesac_add_admin_page() {
+    add_menu_page(
+        'League Settings', // Page title
+        'League Settings', // Menu title
+        'manage_options',  // Capability
+        'tesac-league-settings', // Menu slug
+        'tesac_display_admin_page', // Function to display the settings page
+        'dashicons-admin-generic', // Icon (use dashicons or custom image)
+        80 // Position
+    );
+}
+add_action('admin_menu', 'tesac_add_admin_page');
+
+function tesac_display_admin_page() {
+    ?>
+    <div class="wrap">
+        <h1><?php _e('League Settings', 'tesac'); ?></h1>
+        <form method="post" action="options.php">
+            <?php
+            // Add settings fields
+            settings_fields('tesac_options_group');
+            do_settings_sections('tesac-league-settings');
+            ?>
+            <table class="form-table">
+                <tr>
+                    <th scope="row"><label for="tesac_current_season"><?php _e('Current Season', 'tesac'); ?></label></th>
+                    <td>
+                        <?php
+                        // Get all terms from the 'season' taxonomy
+                        $seasons = get_terms(array(
+                            'taxonomy' => 'season',
+                            'orderby' => 'name',
+                            'order' => 'ASC',
+                            'hide_empty' => false
+                        ));
+
+                        // Get current season value
+                        $current_season = get_option('tesac_current_season', 'winter-2025');
+
+                        // Display the select dropdown
+                        if (!empty($seasons) && !is_wp_error($seasons)) {
+                            echo '<select name="tesac_current_season" id="tesac_current_season">';
+                            foreach ($seasons as $season) {
+                                // Compare slug with current season stored in the options
+                                $selected = ($current_season === $season->slug) ? 'selected' : ''; 
+                                echo '<option value="' . esc_attr($season->slug) . '" ' . $selected . '>' . esc_html($season->name) . '</option>';
+                            }
+                            echo '</select>';
+                        } else {
+                            echo '<p>' . __('No seasons found.', 'tesac') . '</p>';
+                        }
+
+                        ?>
+                    </td>
+                </tr>
+
+                <!-- Primary Color Picker -->
+                <tr>
+                    <th scope="row"><label for="tesac_primary_color"><?php _e('Primary Color', 'tesac'); ?></label></th>
+                    <td>
+                        <input type="text" name="tesac_primary_color" id="tesac_primary_color" value="<?php echo esc_attr(get_option('tesac_primary_color')); ?>" class="tesac-color-picker" />
+                    </td>
+                </tr>
+
+                <!-- Secondary Color Picker -->
+                <tr>
+                    <th scope="row"><label for="tesac_secondary_color"><?php _e('Secondary Color', 'tesac'); ?></label></th>
+                    <td>
+                        <input type="text" name="tesac_secondary_color" id="tesac_secondary_color" value="<?php echo esc_attr(get_option('tesac_secondary_color')); ?>" class="tesac-color-picker" />
+                    </td>
+                </tr>
+
+                <!-- Accent Color Picker -->
+                <tr>
+                    <th scope="row"><label for="tesac_accent_color"><?php _e('Accent Color', 'tesac'); ?></label></th>
+                    <td>
+                        <input type="text" name="tesac_accent_color" id="tesac_accent_color" value="<?php echo esc_attr(get_option('tesac_accent_color')); ?>" class="tesac-color-picker" />
+                    </td>
+                </tr>
+
+            </table>
+
+            <?php submit_button(); ?>
+        </form>
+    </div>
+    <?php
+}
+
+function tesac_register_settings() {
+
+    register_setting('tesac_options_group', 'tesac_current_season');
+    register_setting('tesac_options_group', 'tesac_primary_color');
+    register_setting('tesac_options_group', 'tesac_secondary_color');
+    register_setting('tesac_options_group', 'tesac_accent_color');
+}
+add_action('admin_init', 'tesac_register_settings');
+
+function tesac_enqueue_color_picker($hook_suffix) {
+    // Check if the current page is your custom admin page
+    if ('toplevel_page_tesac-league-settings' !== $hook_suffix) {
+        return;
+    }
+
+    // Enqueue the WordPress color picker styles and script
+    wp_enqueue_style('wp-color-picker'); // Load the color picker style
+    wp_enqueue_script('wp-color-picker'); // Load the color picker script
+    wp_enqueue_script('tesac-color-picker', '', array('wp-color-picker'), false, true); // Initialize custom JS if needed
+}
+add_action('admin_enqueue_scripts', 'tesac_enqueue_color_picker');
+
+function tesac_inline_color_picker_script() {
+    ?>
+    <script type="text/javascript">
+        jQuery(document).ready(function($){
+            // Initialize color pickers for all elements with class .tesac-color-picker
+            $('.tesac-color-picker').wpColorPicker();
+        });
+    </script>
+    <?php
+}
+add_action('admin_footer', 'tesac_inline_color_picker_script');
+
+
+function tesac_output_dynamic_styles() {
+    $primary_color = get_option('tesac_primary_color', '#000080'); // Default Marpole Blue
+    $secondary_color = get_option('tesac_secondary_color', '#fdd411'); // Default Marpole Gold
+    $accent_color = get_option('tesac_accent_color', '#1f8d1b'); // VCC Green
+
+    echo "<style>
+        :root {
+            --primary-color: $primary_color;
+            --secondary-color: $secondary_color;
+            --tertiary-color: $accent_color;
+        }
+    </style>";
+}
+add_action('wp_head', 'tesac_output_dynamic_styles');
