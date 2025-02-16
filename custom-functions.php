@@ -1,11 +1,13 @@
 <?php
 
+// Register Google Fonts
 function enqueue_google_fonts() {
     wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap', false);
     wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap', false);
 }
 add_action('wp_enqueue_scripts', 'enqueue_google_fonts');
 
+// Register custom script
 function enqueue_custom_script() {
 
     if (is_page('Schedule')) { 
@@ -15,6 +17,8 @@ function enqueue_custom_script() {
 }
 add_action('wp_enqueue_scripts', 'enqueue_custom_script');
 
+
+// This adds a 'current-menu-item' class to the 'Teams' menu item when on a team page
 function custom_active_teams_class($classes, $item, $args) {
     // Check if we are on a team page
     if (is_single() && strpos($_SERVER['REQUEST_URI'], '/teams/') !== false) {
@@ -189,6 +193,8 @@ function register_players_cpt() {
 
 add_action( 'init', 'register_players_cpt', 0 );
 
+
+// This function will add a custom permalink structure for the 'teams' CPT to include the season slug
 function custom_team_permalink( $permalink, $post ) {
     // Check if it's a team post type
     if ( 'teams' === get_post_type( $post ) ) {
@@ -206,6 +212,44 @@ function custom_team_permalink( $permalink, $post ) {
 }
 
 add_filter( 'post_type_link', 'custom_team_permalink', 10, 2 );
+
+
+// these 2 functions exist to prevent the season taxonomy from being treated as a taxonomy archive for the 'teams' CPT
+
+function custom_rewrite_rules() {
+    // Exclude season slugs from being treated as a taxonomy archive under the "teams" CPT
+    add_rewrite_rule(
+        '^teams/([^/]+)/$',
+        'index.php?post_type=teams&season=$matches[1]',
+        'top'
+    );
+}
+
+add_action('init', 'custom_rewrite_rules');
+
+function prevent_season_archive_redirect() {
+    // Check if we are viewing a 'teams' post type and the URL is in the 'season' taxonomy archive format
+    if (is_tax('season')) {
+        // Get the current taxonomy term (season)
+        $term = get_queried_object();
+
+        // Check if it's a valid season term and not a team post
+        if ($term && !is_singular('teams')) {
+            // Set the 404 status to trigger the 404 template
+            global $wp_query;
+            $wp_query->set_404();
+            status_header(404);
+            // Load the 404 template
+            get_template_part( '404' );
+            exit();
+        }
+    }
+}
+
+add_action('template_redirect', 'prevent_season_archive_redirect');
+
+
+
 
 
 function register_games_schedule_cpt() {
