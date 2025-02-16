@@ -215,9 +215,10 @@ function display_team_results($team_id) {
 
 function display_condensed_standings($atts) {
     // Set default attributes (can be overridden with [team_standings season="season-slug"])
+    $season_slug = get_option('tesac_current_season', 'winter-2025'); // Default to 'winter-2025' if no option is set
     $atts = shortcode_atts(
         array(
-            'season' => 'winter-2025', // Default season
+            'season' => $season_slug, // Default season
         ), 
         $atts
     );
