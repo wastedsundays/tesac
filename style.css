@@ -436,6 +436,40 @@ h6 {
 	font-weight: 400;
 }
 
+h1 {
+	font-size: 2.5rem;	
+}
+
+h2 {
+	font-size: 2rem;
+}
+
+h3 {
+	font-size: 1.5rem;
+}
+
+p {
+	font-size: 1rem;
+}
+
+@media (min-width: 68.75rem) {
+	h1 {
+		font-size: 3.5rem;
+	}
+
+	h2 {
+		font-size: 2.5rem;
+	}
+
+	h3 {
+		font-size: 2rem;
+	}
+
+	p {
+		font-size: 1.125rem;
+	}
+}
+
 .smaller-text {
 	font-size: 0.8rem;
 }
@@ -446,7 +480,7 @@ h6 {
 }
 
 p {
-
+	font-family: 'Inter', sans-serif;
 }
 
 dfn,
@@ -562,7 +596,7 @@ img {
 }
 
 figure {
-	margin: 1em 0;
+	margin: 0;
 }
 
 .table-wrapper {
@@ -722,6 +756,11 @@ textarea {
 	width: 100%;
 }
 
+/* WP Forms override */
+.wpforms-container input.wpforms-field-medium, .wpforms-container select.wpforms-field-medium, .wpforms-container .wpforms-field-row.wpforms-field-medium, .wp-core-ui div.wpforms-container input.wpforms-field-medium, .wp-core-ui div.wpforms-container select.wpforms-field-medium, .wp-core-ui div.wpforms-container .wpforms-field-row.wpforms-field-medium {
+	max-width: 100%;
+}
+
 /*--------------------------------------------------------------
 # Layouts
 --------------------------------------------------------------*/
@@ -740,8 +779,14 @@ textarea {
     box-shadow: var(--box-shadow);
 }
 
+.card-container h1 {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
 .card-container h2 {
     text-align: center;
+	margin-top: 0;
 }
 
 /* home page things */
@@ -755,7 +800,10 @@ textarea {
 	object-fit: cover;
 }
 
-
+.tesac-home .card-container article .entry-content {
+	margin-top: 0;
+	margin-bottom: 0;
+}
 
 @media (min-width: 1100px) {
 	.tesac-home {
@@ -777,7 +825,6 @@ textarea {
 		flex-grow: 1;  
 		display: flex;
 		flex-direction: column;
-		margin-top: 0;
 	}
 	
 	.tesac-home .card-container article .entry-content .wp-block-image {
@@ -861,8 +908,22 @@ textarea {
 	margin: 0 auto;
 }
 
+.standings-page h1 {
+	text-align: center;
+}
+
 .standings-page form {
 	margin-bottom: 2rem;
+}
+
+.standings-page table {
+	font-size: 14px;
+}
+
+@media (min-width: 1045px) {
+	.standings-page table {
+		font-size: 16px;
+	}
 }
 
 .condensed-standings-card table {
@@ -895,6 +956,9 @@ textarea {
 	font-size: 1.5rem;
 }
 
+.team-page h1 {
+	text-align: center;
+}
 
 .team-page {
     display: grid;
@@ -907,6 +971,16 @@ textarea {
     margin: 0 auto;
 }
 
+.team-page .team-results-container table {
+	font-size: .87;
+}
+
+@media (min-width: 31.25rem) {
+	.team-page .team-results-container table {
+		font-size: 1rem;
+	}
+}
+
 @media (min-width: 1100px) {
     .team-page {
         grid-template-areas: "info . results"
@@ -914,6 +988,8 @@ textarea {
                              "nav nav nav";
         grid-template-columns: 60% 1rem 1fr;
     }
+
+
 }
 
 .team-info-container {
@@ -970,6 +1046,30 @@ textarea {
     color: black;
 }
 
+/* about page */
+
+.about-page .entry-content {
+	width: clamp(300px, 95%, 1200px);
+	margin: 0 auto;
+}
+
+@media (min-width: 1100px) {
+	.about-page .entry-content {
+		display: grid;
+		align-items: start;
+		grid-template-columns: 40% 60%;
+	}
+
+	.about-page .entry-content .card-container:first-child {
+		grid-column: 1 / 3;
+	}
+
+	.about-page .entry-content .card-container:nth-child(2) {
+		position: sticky;
+		top: 6rem;
+	}
+}
+
 /* Header
 --------------------------------------------- */
 
@@ -987,6 +1087,7 @@ textarea {
 	border-bottom: 1px solid var(--secondary-color);
 	background: rgba(255,255,255,.8);
 	backdrop-filter: blur(10px);
+	z-index: 9998;
 }
 
 .main-navigation ul {
