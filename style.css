@@ -746,6 +746,7 @@ input[type="datetime-local"]:focus,
 input[type="color"]:focus,
 textarea:focus {
 	color: #111;
+	font-family: 'Inter', sans-serif;
 }
 
 select {
@@ -759,6 +760,11 @@ textarea {
 /* WP Forms override */
 .wpforms-container input.wpforms-field-medium, .wpforms-container select.wpforms-field-medium, .wpforms-container .wpforms-field-row.wpforms-field-medium, .wp-core-ui div.wpforms-container input.wpforms-field-medium, .wp-core-ui div.wpforms-container select.wpforms-field-medium, .wp-core-ui div.wpforms-container .wpforms-field-row.wpforms-field-medium {
 	max-width: 100%;
+}
+.wpforms-container .wpforms-form .wpforms-field-label {
+	font-family: 'Bebas Neue', sans-serif;
+	letter-spacing: 1px;
+	font-weight: 400;
 }
 
 /*--------------------------------------------------------------
@@ -1066,7 +1072,7 @@ textarea {
 
 	.about-page .entry-content .card-container:nth-child(2) {
 		position: sticky;
-		top: 6rem;
+		top: 9rem;
 	}
 }
 
@@ -1143,6 +1149,7 @@ textarea {
 .menu-toggle,
 .main-navigation.toggled ul {
 	display: block;
+	height: 100vh;
 }
 
 .menu-toggle {
@@ -1225,15 +1232,30 @@ textarea {
 	flex: 1 0 50%;
 }
 
+/* Footer */
+footer {
+	background: var(--primary-color);
+	color: var(--secondary-color);
+	padding: 1.5em 0;
+	text-align: center;
+}
+
+footer a {
+	color: var(--secondary-color);
+}
+
 /* Posts and pages
 --------------------------------------------- */
 .sticky {
 	display: block;
 }
 
-.post,
-.page {
+.post {
 	margin: 0 0 1.5em;
+}
+
+.page {
+	margin: 0;
 }
 
 .updated:not(.published) {
