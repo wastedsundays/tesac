@@ -3,6 +3,7 @@
         "plugin:@wordpress/eslint-plugin/esnext"
     ],
     "env": {
-        "browser": true
+        "browser": true,
+        "node": true
     }
 }
