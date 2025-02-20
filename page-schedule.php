@@ -98,7 +98,7 @@ get_header();
 				if (!empty($upcoming_draws)) {
 					foreach ($upcoming_draws as $draw) {
 						?>
-						<div class="schedule-post card-container <?php echo $draw['class']; ?>">
+						<div class="schedule-post card-container <?php echo $draw['class']; ?>" role="button" aria-expanded="false">
 							<h2><?php echo $draw['title']; ?></h2>
 							<p class="schedule-date-time"><?php echo $draw['formatted_date']; ?></p>
 							<div class="draw-matchups">
@@ -125,7 +125,7 @@ get_header();
 				if (!empty($past_draws)) {
 					foreach ($past_draws as $draw) {
 						?>
-						<div class="schedule-post card-container <?php echo $draw['class']; ?>">
+						<div class="schedule-post card-container <?php echo $draw['class']; ?>" role="button" aria-expanded="false">
 							<h2><?php echo $draw['title']; ?></h2>
 							<p class="schedule-date-time"><?php echo $draw['formatted_date']; ?></p>
 							<div class="draw-matchups">
