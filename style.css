@@ -1096,6 +1096,8 @@ textarea {
 	z-index: 9998;
 }
 
+
+
 .main-navigation ul {
 	display: none;
 	list-style: none;
@@ -1152,6 +1154,37 @@ textarea {
 	height: 100vh;
 }
 
+.toggled #primary-menu {
+	width: 100%;
+	right: 0;
+	transition: .7s ease-in-out;
+}
+
+#primary-menu {
+	z-index: 9999;
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background: var(--card-background);
+	right: -100%;
+	transition: .7s ease-in-out;
+	height: 100vh;
+	width: 100%;
+}
+
+@media (min-width: 65rem) {
+	.main-navigation {
+		height: 65px;
+	}
+
+	#primary-menu {
+		right: 0;
+		flex-direction: row;
+		height: 0;
+	}
+}
+
 .menu-toggle {
 	position: fixed;
 	top: 1rem;
@@ -1159,8 +1192,10 @@ textarea {
 	z-index: 99999;
 	display: flex;
 	flex-direction: column;
-	border: none;
-	background: none;
+	border: 1px solid var(--primary-color);
+	background: var(--card-background);
+	height: 3.125rem;
+	padding: .6rem .4rem;
 }
 
 .menu-toggle svg {
@@ -1172,7 +1207,7 @@ textarea {
 }
 
 .toggled #broom1 {
-	transform:rotate(45deg) translate(10px, 10px);
+	transform:rotate(45deg) translate(5px, 8px);
 	transition: all 0.5s;
 }
 
@@ -1183,7 +1218,7 @@ textarea {
 
 .toggled #broom2 {
 	/* width: 0; */
-	transform:rotate(135deg) translate(-2px, -1px);
+	transform:rotate(135deg) translate(-1px, -1px);
 	/* transition: width 0.5s; */
 }
 
