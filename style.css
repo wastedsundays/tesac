@@ -1076,6 +1076,13 @@ textarea {
 	}
 }
 
+/* 404 page */
+
+.error-page {
+	width: clamp(18.75rem, 95%, 68.75rem);
+	margin: 0 auto;
+}
+
 /* Header
 --------------------------------------------- */
 
