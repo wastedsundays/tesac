@@ -795,6 +795,11 @@ textarea {
 	margin-top: 0;
 }
 
+#page {
+	background: url('images/marpole-bg.jpg') no-repeat center center fixed;
+	background-size: cover;
+}
+
 /* home page things */
 .tesac-home {
 	width: clamp(300px, 95%, 1200px);
@@ -849,12 +854,20 @@ textarea {
 		grid-column: span 3;
 	}
 
+
+
 	.upcoming-card {
 		grid-column: span 2;
 	}
 
 	.results-card {
 		grid-column: span 2;
+	}
+}
+
+@media (min-width: 800px) {
+	.welcome-card .wp-block-group__inner-container {
+		padding: 0 2rem;
 	}
 }
 
