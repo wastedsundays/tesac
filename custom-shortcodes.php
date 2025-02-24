@@ -372,7 +372,10 @@ function upcoming_schedule_shortcode($atts) {
         $output .= '</div>'; // Close upcoming-schedule
         wp_reset_postdata();
     } else {
-        $output = '<p>No upcoming schedules found within the next 7 days.</p>';
+        $output = '<div class="upcoming-schedule">';
+        $output .= '<h2>Upcoming Schedule</h2>';
+        $output .= '<p>No upcoming draw in the next 7 days.</p>';
+        $output .= '</div>';
     }
 
     return $output;
