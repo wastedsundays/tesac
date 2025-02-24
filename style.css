@@ -1285,16 +1285,50 @@ textarea {
 }
 
 /* Footer */
-footer {
+.site-footer {
 	background: var(--primary-color);
 	color: var(--secondary-color);
 	padding: 1.5em 0;
 	text-align: center;
 }
 
+.site-info p {
+	font-size: .9375rem;
+	display: block;
+	width: 18.75rem;
+	margin: 0 auto;
+
+}
+
+@media (min-width: 1000px) {
+	.site-info {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.site-info p {
+		margin: 0 1rem;
+	}
+
+	.site-info p:nth-child(1) {
+		text-align: left;
+	}
+
+	.site-info p:nth-child(3) {
+		text-align: right;
+	}
+
+}
+
 footer a {
 	color: var(--secondary-color);
 }
+
+footer a:hover {
+	color: var(--card-background);
+}
+
+
 
 /* Posts and pages
 --------------------------------------------- */
