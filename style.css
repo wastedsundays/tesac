@@ -802,7 +802,7 @@ textarea {
 
 /* home page things */
 .tesac-home {
-	width: clamp(300px, 95%, 1200px);
+	width: clamp(18.75rem, 95%, 85rem);
 	margin: 0 auto;
 }
 
@@ -1174,7 +1174,13 @@ textarea {
 	display: block;
 	text-decoration: none;
 	font-family: 'bebas neue', sans-serif;
-	font-size: 2rem;
+	font-size: 3rem;
+}
+
+@media (min-width: 65rem) {
+	.main-navigation a {
+		font-size: 2rem;
+	}
 }
 
 /* Small menu. */
@@ -1196,7 +1202,7 @@ textarea {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	background: var(--card-background);
+	background: rgba(255, 255, 255, 0.96);
 	right: -100%;
 	transition: .7s ease-in-out;
 	height: 100vh;
@@ -1309,7 +1315,7 @@ textarea {
 	font-size: .9375rem;
 	display: block;
 	width: 18.75rem;
-	margin: 0 auto;
+	margin: 1rem auto;
 
 }
 
