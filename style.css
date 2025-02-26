@@ -676,6 +676,17 @@ a:active {
 
 /* Forms
 --------------------------------------------- */
+
+.wpforms-form input[type=submit],
+.wpforms-form button[type=submit] {
+    display: block;
+	width: 100%;
+	background-color: var(--primary-color) !important;
+	font-family: 'Bebas Neue', sans-serif !important;
+	font-size: 1.25rem !important;
+	color: var(--secondary-color) !important;
+}
+
 button,
 input[type="button"],
 input[type="reset"],
