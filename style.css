@@ -1080,6 +1080,10 @@ textarea {
 	.column-reverse {
 		flex-direction: row;
 	}
+
+	.column-reverse h3 {
+		text-align: right;
+	}
 }
 
 @media (min-width: 1100px) {
