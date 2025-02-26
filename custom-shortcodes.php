@@ -214,7 +214,7 @@ function display_team_results($team_id) {
 
 
 function display_condensed_standings($atts) {
-    // Set default attributes (can be overridden with [team_standings season="season-slug"])
+
     $season_slug = get_option('tesac_current_season', 'winter-2025'); // Default to 'winter-2025' if no option is set
     $atts = shortcode_atts(
         array(
@@ -263,10 +263,9 @@ function display_condensed_standings($atts) {
 
     // Sort teams by Points DESC
     usort($teams, function ($a, $b) {
-        return $b['points'] - $a['points']; // Sort by points DESC
+        return $b['points'] - $a['points'];
     });
 
-    // Start the output
     ob_start();
     ?>
     <h2>Standings</h2>
@@ -299,11 +298,9 @@ function display_condensed_standings($atts) {
     <?php endif; ?>
 
     <?php
-    // Capture the output and return it
     return ob_get_clean();
 }
 
-// Register the shortcode
 add_shortcode('condensed_standings', 'display_condensed_standings');
 
 
@@ -345,6 +342,7 @@ function upcoming_schedule_shortcode($atts) {
             $output .= '<div class="schedule-post">';
             $output .= '<h2>Upcoming Schedule</h2>';
             $output .= '<h3>' . get_the_title() . ' - ' . $formatted_date . '</h3>';
+            $output .= '<ul>';
             
             // Loop through sheets (1 to 6)
             for ($sheet = 1; $sheet <= 6; $sheet++) {
@@ -359,12 +357,13 @@ function upcoming_schedule_shortcode($atts) {
                     $team_1_name = is_a($team_1, 'WP_Post') ? get_the_title($team_1) : '';
                     $team_2_name = is_a($team_2, 'WP_Post') ? get_the_title($team_2) : '';
 
-                    $output .= '<div class="sheet">';
+                    $output .= '<li class="sheet">';
                     $output .= '<strong>Sheet ' . $sheet . ':</strong> ';
                     $output .= esc_html($team_1_name) . ' vs ' . esc_html($team_2_name);
-                    $output .= '</div>';
+                    $output .= '</li>';
                 }
             }
+            $output .= '</ul>';
 
             $output .= '</div>'; // Close schedule-post
         }
@@ -421,6 +420,7 @@ function past_schedule_shortcode($atts) {
             $output .= '<div class="schedule-post">';
             $output .= '<h2>Recent Results</h2>';
             $output .= '<h3>' . get_the_title() . ' - ' . $formatted_date . '</h3>';
+            $output .= '<ul>';
             
             // Loop through sheets (1 to 6)
             for ($sheet = 1; $sheet <= 6; $sheet++) {
@@ -455,19 +455,19 @@ function past_schedule_shortcode($atts) {
                     }
 
                     // Output the match info with both teams' results
-                    $output .= '<div class="sheet">';
+                    $output .= '<li class="sheet">';
                     $output .= esc_html($team_1_name) . ' - ' . $team_1_result . ' vs ' . esc_html($team_2_name) . ' - ' . $team_2_result;
-                    $output .= '</div>';
+                    $output .= '</li>';
                 }
             }
-
+            $output .= '</ul>';
             $output .= '</div>'; // Close schedule-post
         }
 
         $output .= '</div>'; // Close past-schedule
         wp_reset_postdata();
     } else {
-        $output = '<p>No schedules found in the past 7 days.</p>';
+        $output = '<p>No games played in the past 7 days.</p>';
     }
 
     return $output;

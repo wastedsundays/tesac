@@ -949,6 +949,18 @@ textarea {
 	font-size: 14px;
 }
 
+.results-card ul, .upcoming-card ul {
+	list-style: none;
+	padding: 0;
+	margin-left: .25rem;
+}
+
+.results-card .sheet, .upcoming-card .sheet {
+	padding: .25rem 0;
+}
+
+
+
 /* team page things */
 
 .teams-page {
