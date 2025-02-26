@@ -807,7 +807,7 @@ textarea {
 }
 
 .tesac-home .card-container article .entry-content .wp-block-image img {
-	height: 300px;
+	/* height: 300px; */
 	object-fit: cover;
 }
 
@@ -1084,6 +1084,32 @@ textarea {
 	margin: 0 auto;
 }
 
+.about-page .wp-block-columns {
+	padding: 1rem;
+	border-radius: .25rem;
+	box-shadow:0 0 10px rgba(0, 0, 0, 0.2)
+}
+
+.about-page .wp-block-columns-is-layout-flex {
+	gap: 0;
+}
+
+
+.about-page .wp-block-columns-is-layout-flex h3 {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+@media (min-width: 782px) {
+	.about-page .wp-block-columns-is-layout-flex {
+		gap: 2rem;
+	}
+
+	.about-page .wp-block-columns-is-layout-flex h3 {
+		margin-top: 2rem;
+	}
+}
+
 .column-reverse {
 	flex-direction: column-reverse;
 }
@@ -1127,6 +1153,25 @@ textarea {
 
 .site-branding {
 	position: absolute;
+	/* display: none; */
+}
+
+.custom-logo {
+	width: 5rem;
+	z-index: 99999;
+	position: relative;
+	top: .375rem;
+	left: 1rem;
+}
+
+@media (min-width: 65rem) {
+	.custom-logo {
+		position: fixed;
+		top: -4px;
+	}
+}
+
+.site-title {
 	display: none;
 }
 
