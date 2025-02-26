@@ -1,5 +1,40 @@
 <?php
 
+// Disable comments for posts and pages
+function disable_comments_post_types_support() {
+    $post_types = get_post_types();
+
+    foreach ($post_types as $post_type) {
+        if ('post' == $post_type || 'page' == $post_type) {
+            remove_post_type_support($post_type, 'comments');
+        }
+    }
+}
+add_action('init', 'disable_comments_post_types_support');
+
+// Close comments on the front-end
+function disable_comments_status() {
+    return false;
+}
+add_filter('comments_open', 'disable_comments_status', 20, 2);
+add_filter('pings_open', 'disable_comments_status', 20, 2);
+
+// Remove comments from admin menu
+function remove_comments_from_admin_menu() {
+    remove_menu_page('edit-comments.php');
+}
+add_action('admin_menu', 'remove_comments_from_admin_menu');
+
+// Remove comments from admin bar
+function remove_comments_from_admin_bar() {
+    if (is_admin()) {
+        return;
+    }
+    remove_action('admin_bar_menu', 'wp_admin_bar_comments', 60);
+}
+add_action('wp_before_admin_bar_render', 'remove_comments_from_admin_bar');
+
+
 // Register Google Fonts
 function enqueue_google_fonts() {
     wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap', false);

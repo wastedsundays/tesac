@@ -677,15 +677,7 @@ a:active {
 /* Forms
 --------------------------------------------- */
 
-.wpforms-form input[type=submit],
-.wpforms-form button[type=submit] {
-    display: block;
-	width: 100%;
-	background-color: var(--primary-color) !important;
-	font-family: 'Bebas Neue', sans-serif !important;
-	font-size: 1.25rem !important;
-	color: var(--secondary-color) !important;
-}
+
 
 button,
 input[type="button"],
@@ -776,6 +768,38 @@ textarea {
 	font-family: 'Bebas Neue', sans-serif;
 	letter-spacing: 1px;
 	font-weight: 400;
+}
+
+.wpforms-form input[type=submit],
+.wpforms-form button[type=submit] {
+    display: block;
+	width: 100%;
+	background-color: var(--primary-color) !important;
+	font-family: 'Bebas Neue', sans-serif !important;
+	font-size: 1.25rem !important;
+	color: var(--secondary-color) !important;
+}
+
+.wpforms-form input[type=submit]:hover,
+.wpforms-form button[type=submit]:hover {
+	background-color: var(--secondary-color) !important;
+	color: var(--primary-color) !important;
+}
+
+.fake-button {
+	padding: .5rem;
+	text-align: center;
+	background-color: var(--primary-color);
+	border-radius: 0 0 .25rem .25rem;
+	color: var(--secondary-color);
+	font-family: 'Bebas Neue', sans-serif;
+	font-size: 1.25rem;	
+	font-weight: 400;
+}
+
+.fake-button:hover {
+	background-color: var(--secondary-color);
+	color: var(--primary-color);
 }
 
 /*--------------------------------------------------------------
@@ -1098,7 +1122,7 @@ textarea {
 .about-page .wp-block-columns {
 	padding: 1rem;
 	border-radius: .25rem;
-	box-shadow:0 0 10px rgba(0, 0, 0, 0.2)
+	box-shadow:0 0 10px rgba(0, 0, 0, 0.1)
 }
 
 .about-page .wp-block-columns-is-layout-flex {
@@ -1379,7 +1403,7 @@ textarea {
 .site-footer {
 	background: var(--primary-color);
 	color: var(--secondary-color);
-	padding: 1.5em 0;
+	padding: .1rem 0;
 	text-align: center;
 }
 

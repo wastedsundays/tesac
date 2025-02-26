@@ -292,7 +292,7 @@ function display_condensed_standings($atts) {
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <a href="<?php echo home_url('/standings'); ?>">View Full Standings</a>
+        <a class="fake-button" href="<?php echo home_url('/standings'); ?>">View Full Standings</a>
     <?php else : ?>
         <p>No data found for this season.</p>
     <?php endif; ?>
